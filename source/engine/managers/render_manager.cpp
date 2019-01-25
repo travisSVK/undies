@@ -10,7 +10,7 @@ RenderManager::~RenderManager()
     _sprite_components.clear();
 }
 
-void RenderManager::Render()
+void RenderManager::render()
 {
     const sf::Vector2u windowSize = _main_window->getSize();
 

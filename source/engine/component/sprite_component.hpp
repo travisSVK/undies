@@ -13,6 +13,7 @@ public:
 private:
     SpriteComponent();
     ~SpriteComponent();
+
     SpriteComponent(SpriteComponent const&) = delete;
     void operator=(SpriteComponent const&) = delete;
 
