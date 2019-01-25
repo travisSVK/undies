@@ -26,4 +26,8 @@
 !premake5.exe
 !*.travis.yml
 
+# Allow data
+!source/game/data/
+
+# Exclude external libs
 external/
