@@ -4,8 +4,6 @@
 
 class Player : public Entity
 {
-public:
-
 protected:
 
     void start() override;
@@ -13,4 +11,8 @@ protected:
     void update(float delta_time) override;
 
     void handle_events(sf::Event& e) override;
+
+private:
+
+    sf::Vector2f _move_dir;
 };

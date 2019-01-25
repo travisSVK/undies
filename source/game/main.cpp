@@ -1,5 +1,6 @@
 #include "managers/entity_manager.hpp"
 #include "managers/render_manager.hpp"
+#include "player.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -8,7 +9,12 @@ int main(int argc, char* argv)
     sf::RenderWindow win(sf::VideoMode(800, 600), "Undies");
 
     EntityManager* entity_manager = EntityManager::get();
-    RenderManager* render_manager; // = RenderManager::get();
+    RenderManager* render_manager = RenderManager::get(); // = RenderManager::get();
+
+    render_manager->start_up(&win);
+
+    Entity* player = new Player();
+    entity_manager->register_entity(player);
 
     while (true)
     {
@@ -22,6 +28,9 @@ int main(int argc, char* argv)
 
         win.display();
     }
+
+    render_manager->shut_down();
+
 
     return 0;
 }
