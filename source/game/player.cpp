@@ -9,7 +9,7 @@ void Player::start()
 
 void Player::update(float delta_time)
 {
-    move(_move_dir);
+    move(_move_dir * delta_time);
 }
 
 void Player::handle_events(sf::Event& e)
@@ -22,11 +22,11 @@ void Player::handle_events(sf::Event& e)
     {
         if (e.key.code == sf::Keyboard::Up)
         {
-            _move_dir = sf::Vector2f(0.0f, 10.0f);
+            _move_dir = sf::Vector2f(0.0f, -10.0f);
         }
         else if (e.key.code == sf::Keyboard::Down)
         {
-            _move_dir = sf::Vector2f(0.0f, -10.0f);
+            _move_dir = sf::Vector2f(0.0f, 10.0f);
         }
         else if (e.key.code == sf::Keyboard::Left)
         {
