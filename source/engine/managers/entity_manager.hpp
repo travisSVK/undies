@@ -14,7 +14,7 @@ public:
 
     void register_entity(Entity* entity);
 
-    void update();
+    void update(float delta_time);
 
 private:
 

@@ -3,14 +3,33 @@
 #include "component.hpp"
 #include "engine_api.hpp"
 
+#include <SFML/Window.hpp>
 #include <vector>
 
 class ENGINE_API Entity
 {
+private:
+
+    friend class EntityManager;
+
 public:
+
+    Entity();
+
+    virtual ~Entity();
+
+    void add_component(Component* component);
 
     template <typename C>
     Component* get_component();
+
+protected:
+
+    virtual void start();
+
+    virtual void update(float delta_time);
+
+    virtual void handle_events(sf::Event e);
 
 private:
 
@@ -27,6 +46,5 @@ Component* Entity::get_component()
         {
             return comp;
         }
-
     }
 }
