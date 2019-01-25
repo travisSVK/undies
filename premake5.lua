@@ -7,6 +7,10 @@ end
 function include_sfml()
     includedirs "external/SFML/include/"
 end	
+
+function include_glm()
+    includedirs "external/GLM/include/"
+end
     
 function link_sfml()
     libdirs "external/SFML/lib/x64/"
@@ -76,6 +80,7 @@ project "engine"
 
     include_sfml()
     link_sfml()
+    include_glm()
 
 function use_engine()
     includedirs "source/engine"
