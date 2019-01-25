@@ -1,6 +1,6 @@
 #pragma once
 
-#include "component.hpp"
+#include "component/component.hpp"
 #include "engine_api.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -34,6 +34,10 @@ public:
     void set_scale(float x, float y);
 
     void set_scale(const sf::Vector2f& scale);
+
+    void move(float x, float y);
+
+    void move(const sf::Vector2f& position);
 
 protected:
 
