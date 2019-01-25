@@ -41,7 +41,7 @@ protected:
 
     virtual void update(float delta_time);
 
-    virtual void handle_events(sf::Event e);
+    virtual void handle_events(sf::Event& e);
 
 private:
 

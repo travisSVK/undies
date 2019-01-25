@@ -51,6 +51,6 @@ void Entity::update(float delta_time)
 {
 }
 
-void Entity::handle_events(sf::Event e)
+void Entity::handle_events(sf::Event& e)
 {
 }
