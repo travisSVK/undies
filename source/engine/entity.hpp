@@ -1,6 +1,6 @@
 #pragma once
 
-#include "component.hpp"
+#include "component/component.hpp"
 #include "engine_api.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -35,13 +35,17 @@ public:
 
     void set_scale(const sf::Vector2f& scale);
 
+    void move(float x, float y);
+
+    void move(const sf::Vector2f& position);
+
 protected:
 
     virtual void start();
 
     virtual void update(float delta_time);
 
-    virtual void handle_events(sf::Event e);
+    virtual void handle_events(sf::Event& e);
 
 private:
 

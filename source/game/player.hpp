@@ -12,5 +12,5 @@ protected:
 
     void update(float delta_time) override;
 
-    void handle_events(sf::Event e) override;
+    void handle_events(sf::Event& e) override;
 };

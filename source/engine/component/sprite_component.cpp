@@ -16,3 +16,7 @@ const sf::Sprite &SpriteComponent::get_sprite()
 {
     return _sprite;
 }
+
+SpriteComponent::~SpriteComponent()
+{
+}
