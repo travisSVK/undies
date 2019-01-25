@@ -54,18 +54,20 @@ workspace "undies"
     filter { }
 
     -- Copy files (DEBUG)
-    os.copyfile("external/SFML/lib/x64/sfml-graphics-d.dll", "builds/debug/sfml-graphics-d.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-window-d.dll", "builds/debug/sfml-window-d.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-audio-d.dll", "builds/debug/sfml-audio-d.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-network-d.dll", "builds/debug/sfml-network-d.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-system-d.dll", "builds/debug/sfml-system-d.dll")
+    os.copyfile("external/SFML/lib/x64/openal32.dll", "builds/debug/openal32.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-graphics-d-2.dll", "builds/debug/sfml-graphics-d-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-window-d-2.dll", "builds/debug/sfml-window-d-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-audio-d-2.dll", "builds/debug/sfml-audio-d-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-network-d-2.dll", "builds/debug/sfml-network-d-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-system-d-2.dll", "builds/debug/sfml-system-d-2.dll")
 
     -- Copy files (RELEASE)
-    os.copyfile("external/SFML/lib/x64/sfml-graphics.dll", "builds/release/sfml-graphics.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-window.dll", "builds/release/sfml-window.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-audio.dll", "builds/release/sfml-audio.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-network.dll", "builds/release/sfml-network.dll")
-    os.copyfile("external/SFML/lib/x64/sfml-system.dll", "builds/release/sfml-system.dll")
+    os.copyfile("external/SFML/lib/x64/openal32.dll", "builds/release/openal32.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-graphics-2.dll", "builds/release/sfml-graphics-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-window-2.dll", "builds/release/sfml-window-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-audio-2.dll", "builds/release/sfml-audio-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-network-2.dll", "builds/release/sfml-network-2.dll")
+    os.copyfile("external/SFML/lib/x64/sfml-system-2.dll", "builds/release/sfml-system-2.dll")
 
 project "engine"
     kind "SharedLib"
@@ -89,7 +91,7 @@ function use_engine()
 end
 
 project "game"
-    kind "SharedLib"
+    kind "ConsoleApp"
     location "source/game"
     files { "source/game/**.hpp", "source/game/**.cpp" }
     use_engine()
