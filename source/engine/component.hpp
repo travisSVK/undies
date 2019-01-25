@@ -1,8 +1,10 @@
 #pragma once
 
+#include "engine_api.hpp"
+
 class Entity;
 
-class Component
+class ENGINE_API Component
 {
 public:
 
