@@ -4,6 +4,7 @@
 void Player::start()
 {
     // add sprite component.
+    SpriteComponent* sprite = RenderManager::get()->load_sprite_component(this, "data/ugly_face.png");
 }
 
 void Player::update(float delta_time)

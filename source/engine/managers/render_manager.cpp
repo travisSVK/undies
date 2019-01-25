@@ -3,25 +3,19 @@
 #include "../component/component.hpp"
 #include "../entity.hpp"
 
-RenderManager::~RenderManager()
+RenderManager* RenderManager::get()
 {
-    for (auto sprite_component : _sprite_components)
-    {
-        delete sprite_component;
-    }
-    _sprite_components.clear();
+    static RenderManager instance;
+    return &instance;
 }
 
 void RenderManager::render()
 {
     const sf::Vector2u windowSize = _main_window->getSize();
-
-    if (_main_window->isOpen && windowSize.x > 0 && windowSize.y > 0) {
-        // Render main window.
-        for (auto sprite_component : _sprite_components)
-        {
-            _main_window->draw(sprite_component->_sprite);
-        }
+    // Render main window.
+    for (auto sprite_component : _sprite_components)
+    {
+        _main_window->draw(sprite_component->_sprite);
     }
 }
 
@@ -34,4 +28,18 @@ SpriteComponent *RenderManager::load_sprite_component(Entity *_entity, const std
 
     _sprite_components.push_back(_sprite_component);
     return _sprite_component;
+}
+
+void RenderManager::start_up(sf::RenderWindow* win)
+{
+    _main_window = win;
+}
+
+void RenderManager::shut_down()
+{
+    for (auto sprite_component : _sprite_components)
+    {
+        delete sprite_component;
+    }
+    _sprite_components.clear();
 }
