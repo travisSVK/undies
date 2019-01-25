@@ -4,12 +4,14 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 
 class SpriteComponent;
+class Component;
+class Entity;
 
 class ENGINE_API RenderManager 
 {
 public:
-
     void render();
+    SpriteComponent *load_sprite_component(Entity *_entity, const std::string &_sprite_file);
 
 private:
     RenderManager();
