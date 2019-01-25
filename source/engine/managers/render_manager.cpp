@@ -15,6 +15,8 @@ void RenderManager::render()
     // Render main window.
     for (auto sprite_component : _sprite_components)
     {
+        sprite_component->_sprite.setPosition(sprite_component->get_entity()->get_position());
+        sprite_component->_sprite.setScale(sprite_component->get_entity()->get_scale());
         _main_window->draw(sprite_component->_sprite);
     }
 }
