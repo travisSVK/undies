@@ -7,13 +7,10 @@ class SpriteComponent : public Component
 {
     friend RenderManager;
 public:
-    void set_sprite(std::string _sprite_path);
-    const sf::Sprite &get_sprite();
+    void set_sprite(const std::string &_sprite_path);
 
 private:
     SpriteComponent();
-    ~SpriteComponent();
-
     SpriteComponent(SpriteComponent const&) = delete;
     void operator=(SpriteComponent const&) = delete;
 
