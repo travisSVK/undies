@@ -1,0 +1,29 @@
+# Ignore everything including subdirectories.
+*
+!*/
+
+# Git.
+!*.gitignore
+
+# C/C++.
+!*.cpp
+!*.hpp
+!*.inl
+!*.h
+!*.pump
+!*.cc
+
+# Shaders.
+!*.vs.glsl
+!*.gs.glsl
+!*.cs.glsl
+
+# Lua.
+!*.lua
+
+# Allow other.
+!*.md
+!premake5.exe
+!*.travis.yml
+
+external/
