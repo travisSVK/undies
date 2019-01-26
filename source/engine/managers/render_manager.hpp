@@ -34,4 +34,3 @@ private:
     std::vector<SpriteComponent *> _sprite_components;
     std::vector<FovComponent *> _fov_components;
 };
-

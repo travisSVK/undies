@@ -25,15 +25,25 @@ public:
 
     sf::Vector2f get_position() const;
 
+    float get_rotation() const;
+
     sf::Vector2f get_scale() const;
+
+    sf::Vector2f get_origin() const;
 
     void set_position(float x, float y);
 
     void set_position(const sf::Vector2f& position);
 
+    void set_rotation(float rotation);
+
     void set_scale(float x, float y);
 
     void set_scale(const sf::Vector2f& scale);
+
+    void set_origin(float x, float y);
+
+    void set_origin(const sf::Vector2f& origin);
 
     void move(float x, float y);
 
@@ -53,7 +63,11 @@ private:
 
     sf::Vector2f _position;
 
+    float _rotation;
+
     sf::Vector2f _scale;
+
+    sf::Vector2f _origin;
 };
 
 template<typename C>

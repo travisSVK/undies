@@ -10,6 +10,9 @@ class ENGINE_API LevelManager final
 {
 public:
 
+	static const int MAX_X = 24;
+	static const int MAX_Y = 15;
+
     struct LevelTile
     {
         sf::Sprite sprite;
@@ -40,7 +43,7 @@ public:
 
 private:
 
-    LevelTile _level_tiles[32][32];
+    LevelTile _level_tiles[MAX_X][MAX_Y];
 
     std::vector<TilePrototype> _tile_prototype;
 };

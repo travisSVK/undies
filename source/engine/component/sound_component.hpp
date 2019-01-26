@@ -1,4 +1,5 @@
 #pragma once
+#include "../engine_api.hpp"
 #include "component.hpp"
 #include <SFML/Audio.hpp>
 #include "../managers/sound_manager.hpp"

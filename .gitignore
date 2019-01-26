@@ -29,6 +29,8 @@
 # Allow data
 !source/game/data/
 !source/game/data/*
+!source/game/data/graphics/
+!source/game/data/graphics/*
 
 # Exclude external libs
 !external/
