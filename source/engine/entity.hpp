@@ -21,7 +21,7 @@ public:
     void add_component(Component* component);
 
     template <typename C>
-    Component* get_component();
+    C* get_component();
 
     sf::Vector2f get_position() const;
 
@@ -71,14 +71,15 @@ private:
 };
 
 template<typename C>
-Component* Entity::get_component()
+C* Entity::get_component()
 {
     for (int i = 0; i < _components.size(); ++i)
     {
-        Component* comp = dynamic_cast<C*>(_components[i]);
+        C* comp = dynamic_cast<C*>(_components[i]);
         if (comp)
         {
             return comp;
         }
     }
+    return nullptr;
 }

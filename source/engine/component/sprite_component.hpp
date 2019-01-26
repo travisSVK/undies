@@ -3,6 +3,7 @@
 #include "component.hpp"
 #include "SFML/Graphics.hpp"
 #include "../managers/render_manager.hpp"
+#include "../engine_api.hpp"
 
 class ENGINE_API SpriteComponent : public Component
 {
@@ -11,6 +12,7 @@ class ENGINE_API SpriteComponent : public Component
 public:
 
     void set_sprite(const std::string &_sprite_path);
+    sf::Vector2f get_sprite_scale() const;
 
 private:
 

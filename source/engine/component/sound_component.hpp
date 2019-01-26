@@ -3,6 +3,7 @@
 #include "component.hpp"
 #include <SFML/Audio.hpp>
 #include "../managers/sound_manager.hpp"
+#include "../engine_api.hpp"
 
 class ENGINE_API SoundComponent : public Component
 {
