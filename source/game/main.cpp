@@ -23,7 +23,6 @@ int main(int argc, char* argv)
     level_manager->start_up();
     
     Game* game = new Game();
-
     entity_manager->register_entity(game);
 
     sf::Clock clock;

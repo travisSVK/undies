@@ -1,5 +1,21 @@
 #include "game.hpp"
 
+Game::Game()
+    : _game_state(GameState::MENU)
+    , _left_player(nullptr)
+    , _right_player(nullptr)
+    , _left_selected(false)
+    , _left_down(false)
+    , _right_down(false)
+    , _left_scale(0.0f)
+    , _right_scale(0.0f)
+{
+}
+
+Game::~Game()
+{
+}
+
 void Game::start()
 {
     _game_state = GameState::MENU;
@@ -14,6 +30,13 @@ void Game::start()
     _left_scale = 3.5f;
     _right_scale = 3.0f;
 
+
+    _background = new Entity();
+    RenderManager::get()->load_sprite_component(_background, "data/graphics/Background.png");
+    _background->set_origin(16.0f, 16.0f);
+    _background->set_scale(1000000.0f, 100000.0f);
+    _background->set_position((LevelManager::get()->MAX_X / 2) * 32, (LevelManager::get()->MAX_Y / 2) * 32);
+
     RenderManager::get()->load_sprite_component(_left_player, "data/graphics/Brother1.png");
     _left_player->set_origin(16.0f, 16.0f);
     _left_player->set_scale(_left_scale, _left_scale);
@@ -23,7 +46,6 @@ void Game::start()
     _right_player->set_origin(16.0f, 16.0f);
     _right_player->set_scale(_right_scale, _right_scale);
     _right_player->set_position((LevelManager::get()->MAX_X / 4) * 3 * 32, (LevelManager::get()->MAX_Y - 4) * 32);
-
 }
 
 void Game::update(float delta_time)
@@ -161,6 +183,8 @@ void Game::menu_to_game()
         RenderManager::get()->load_sprite_component(_player, "data/graphics/Sister1.png");
     }
 
+    _background->set_enabled(false);
+
     Enemy* enemy = new Enemy();
     StandingStrategy* str = new StandingStrategy();
     entity_manager->register_entity(enemy);
@@ -172,6 +196,7 @@ void Game::menu_to_game()
     enemy->set_position(16 * 32, 16 * 32);
     
     level_manager->load_level("data/level_test.txt");
+
 
     _game_state = GameState::GAME;
 }

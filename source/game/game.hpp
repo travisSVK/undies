@@ -21,6 +21,12 @@ private:
         GAME_TO_MENU
     };
 
+public:
+
+    Game();
+
+    ~Game();
+
 protected:
 
     void start() override;
@@ -51,6 +57,7 @@ private:
     Player* _player;
     Entity* _left_player;
     Entity* _right_player;
+    Entity* _background;
 
     bool _left_selected;
     bool _left_down;
