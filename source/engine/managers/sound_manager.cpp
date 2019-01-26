@@ -30,6 +30,11 @@ void SoundManager::play_sound(const std::string &_sound_type)
     _sound_components[_sound_type]->_music.play();
 }
 
+void SoundManager::stop_sound(const std::string & sound_type)
+{
+    _sound_components[sound_type]->_music.stop();
+}
+
 void SoundManager::shut_down()
 {
     for (auto sound_component : _sound_components_vec)
@@ -66,5 +71,4 @@ void SoundManager::deregister_sound_component(SoundComponent * sound)
 
         ++it;
     }
-
 }

@@ -57,7 +57,6 @@ private:
 
     GameState _game_state;
 
-
     Player* _player;
     Entity* _left_player;
     Entity* _right_player;

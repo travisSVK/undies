@@ -31,6 +31,8 @@
 !source/game/data/*
 !source/game/data/graphics/
 !source/game/data/graphics/*
+!source/game/data/sfx/
+!source/game/data/music/*
 
 # Exclude external libs
 !external/
