@@ -82,6 +82,16 @@ private:
 
     void load_level_05();
 
+    void load_level_06();
+
+    void load_level_07();
+
+    void load_level_08();
+
+    void load_level_09();
+
+    void load_level_10();
+
     void clean_level();
 
 private:
