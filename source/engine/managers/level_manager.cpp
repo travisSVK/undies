@@ -32,7 +32,7 @@ void LevelManager::start_up()
     {
         for (int y = 0; y < MAX_Y; ++y)
         {
-            _level_tiles[x][y].sprite.setPosition(sf::Vector2f(x * 32, y * 32));
+            _level_tiles[x][y].sprite.setPosition(sf::Vector2f(x * tile_scaling(), y * tile_scaling()));
             _level_tiles[x][y].sprite.setTexture(_tile_prototype[0].texture);
         }
     }
@@ -71,7 +71,7 @@ void LevelManager::load_level(const std::string& filename)
         std::string line;
         std::getline(level, line);
         std::stringstream iss(line);
-        for (int x = 0; x < 32; ++x)
+        for (int x = 0; x < MAX_X; ++x)
         {
             int index;
             iss >> index;
@@ -87,7 +87,7 @@ void LevelManager::render(sf::RenderWindow& win)
 {
     for (int x = 0; x < MAX_X; ++x)
     {
-        for (int y = 0; y < 32; ++y)
+        for (int y = 0; y < MAX_Y; ++y)
         {
             win.draw(_level_tiles[x][y].sprite);
         }

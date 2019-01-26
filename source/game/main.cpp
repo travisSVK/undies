@@ -9,12 +9,13 @@
 
 int main(int argc, char* argv)
 {
-    sf::RenderWindow win(sf::VideoMode(32 * 32, 32 * 32), "Undies");
 
     SoundManager* sound_manager = SoundManager::get();
     EntityManager* entity_manager = EntityManager::get();
     RenderManager* render_manager = RenderManager::get(); // = RenderManager::get();
     LevelManager* level_manager = LevelManager::get();
+
+    sf::RenderWindow win(sf::VideoMode(level_manager->MAX_X * 32, level_manager->MAX_Y * 32), "Undies");
 
     render_manager->start_up(&win);
     level_manager->start_up();
