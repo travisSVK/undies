@@ -63,6 +63,18 @@ private:
 
     void exit();
 
+    void deload_level();
+
+    void load_level_01();
+
+    void load_level_02();
+
+    void load_level_03();
+
+    void load_level_04();
+
+    void load_level_05();
+
 private:
 
     GameState _game_state;

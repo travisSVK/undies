@@ -41,7 +41,7 @@ void Enemy::start()
 }
 
 void Enemy::update(float delta_time)
-{   
+{
     float scaling = LevelManager::get()->tile_scaling();
     switch (_move_dir)
     {
@@ -70,12 +70,8 @@ void Enemy::update(float delta_time)
         move(-_move_speed * delta_time, 0.0f);
         if (get_position().x < _target_x * scaling + 16)
         {
+            set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
             update_movement();
-            // check if direction changed
-            if (_move_dir == Direction::LEFT)
-            {
-                set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
-            }
         }
         break;
     }
@@ -84,12 +80,8 @@ void Enemy::update(float delta_time)
         move(_move_speed * delta_time, 0.0f);
         if (get_position().x > _target_x * scaling + 16)
         {
+            set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
             update_movement();
-            // check if direction changed
-            if (_move_dir == Direction::RIGHT)
-            {
-                set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
-            }
         }
         break;
     }
@@ -162,9 +154,9 @@ bool Enemy::check_player_detection() const
 
         // Use SAT to detect polygon detections
         bool collision = _collision_detection->detect_collision(
-            std::vector<sf::Vector2f>{get_position(), _fov_vector_u, _fov_vector_v}, 
+            std::vector<sf::Vector2f>{get_position(), _fov_vector_u, _fov_vector_v},
             std::vector<sf::Vector2f>{
-                sf::Vector2f(player_position.x + 16.0f, player_position.y + 16.0f),
+            sf::Vector2f(player_position.x + 16.0f, player_position.y + 16.0f),
                 sf::Vector2f(player_position.x - 16.0f, player_position.y + 16.0f),
                 sf::Vector2f(player_position.x - 16.0f, player_position.y - 16.0f),
                 sf::Vector2f(player_position.x + 16.0f, player_position.y - 16.0f)});
