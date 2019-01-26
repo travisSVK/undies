@@ -1,0 +1,2 @@
+0 data/floor.png 1
+1 data/wall.png 0

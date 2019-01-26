@@ -18,6 +18,7 @@ int main(int argc, char* argv)
 
     render_manager->start_up(&win);
     level_manager->start_up();
+    level_manager->load_level("data/level_01.txt");
 
     Entity* player = new Player();
     entity_manager->register_entity(player);
