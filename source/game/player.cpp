@@ -28,9 +28,7 @@ void Player::set_grid_position(int target_x, int target_y)
 
 void Player::start()
 {
-    // add sprite component.
-    SpriteComponent* sprite = RenderManager::get()->load_sprite_component(this, "data/graphics/Sister1.png");
-    
+    // add sprite component.    
     _is_moving = false;
     _dir = Direction::UP;
 }

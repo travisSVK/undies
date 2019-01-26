@@ -45,9 +45,13 @@ public:
 
     void set_origin(const sf::Vector2f& origin);
 
+    void set_enabled(bool enabled);
+
     void move(float x, float y);
 
     void move(const sf::Vector2f& position);
+
+    bool is_enabled() const;
 
 protected:
 
@@ -68,6 +72,8 @@ private:
     sf::Vector2f _scale;
 
     sf::Vector2f _origin;
+
+    bool _enabled;
 };
 
 template<typename C>

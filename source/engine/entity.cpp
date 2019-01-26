@@ -4,6 +4,7 @@ Entity::Entity()
     : _position(0.0f, 0.0f)
     , _rotation(0.0f)
     , _scale(1.0f, 1.0f)
+    , _enabled(true)
     , _origin(0.0f, 0.0f)
 {
 }
@@ -72,6 +73,11 @@ void Entity::set_origin(const sf::Vector2f& origin)
     _origin = origin;
 }
 
+void Entity::set_enabled(bool enabled)
+{
+    _enabled = enabled;
+}
+
 void Entity::move(float x, float y)
 {
     move(sf::Vector2f(x, y));
@@ -80,6 +86,11 @@ void Entity::move(float x, float y)
 void Entity::move(const sf::Vector2f& position)
 {
     _position += position;
+}
+
+bool Entity::is_enabled() const
+{
+    return _enabled;
 }
 
 void Entity::start()

@@ -7,6 +7,7 @@
 #include "sat_collision_detection.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
+#include "game.hpp"
 #include "item.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -23,14 +24,18 @@ int main(int argc, char* argv)
 
     render_manager->start_up(&win);
     level_manager->start_up();
+    
+    Game* game = new Game();
+    entity_manager->register_entity(game);
+
     level_manager->load_level("data/level_test.txt");
 
     Player* player = new Player(2, 13);
     entity_manager->register_entity(player);
 
-	Item* item_test = new Item("data/graphics/Sister1.png", 3, 13);
-	item_test->attach_player_entity(player);
-	entity_manager->register_entity(item_test);
+    Item* item_test = new Item("data/graphics/Sister1.png", 3, 13);
+   item_test->attach_player_entity(player);
+  entity_manager->register_entity(item_test);
 
 	SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
     sound_manager->play_sound("mainsound");
@@ -38,16 +43,6 @@ int main(int argc, char* argv)
 
     sf::Clock clock;
     float delta_time = 0.0f;
-
-    Enemy* enemy = new Enemy(12, 12, 100.0f);
-    entity_manager->register_entity(enemy);
-
-    enemy->attach_player_entity(player);
-    enemy->set_move_direction(Enemy::Direction::UP);
-    BackAndForthStrategy* str = new BackAndForthStrategy();
-    enemy->set_movement_strategy(str);
-    SatCollisionDetection* sat = new SatCollisionDetection();
-    enemy->set_collision_strategy(sat);
 
     while (win.isOpen())
     {
@@ -60,13 +55,6 @@ int main(int argc, char* argv)
 
         // Render all objects.
         render_manager->render();
-
-        // TEST collision
-        bool collision = enemy->check_player_detection();
-        if (collision)
-        {
-            break;
-        }
 
         win.display();
 
