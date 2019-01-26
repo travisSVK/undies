@@ -40,6 +40,8 @@ void Game::start()
     _left_scale = 3.5f;
     _right_scale = 3.0f;
 
+    //_final_state.x = 
+
     _background = new Entity();
     RenderManager::get()->load_sprite_component(_background, "data/graphics/Background.png");
     _background->set_origin(16.0f, 16.0f);
@@ -81,6 +83,9 @@ void Game::update(float delta_time)
         break;
     case Game::GameState::EXIT:
         exit();
+        break;
+    case Game::GameState::LEVEL_FINISHED_TO_MENU:
+        //exit();
         break;
     default:
         break;
@@ -235,6 +240,11 @@ void Game::game(float delta_time)
         }
     }
     
+    float scaling = LevelManager::get()->tile_scaling();
+    if (LevelManager::get()->is_final((_player->get_position().x - 16) / scaling, (_player->get_position().y - 16) / scaling))
+    {
+        _game_state = GameState::LEVEL_FINISHED_TO_MENU;
+    }
 }
 
 void Game::game(sf::Event & e)

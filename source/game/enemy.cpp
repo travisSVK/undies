@@ -165,18 +165,6 @@ bool Enemy::check_player_detection() const
         {
             return true;
         }
-
-        collision = _collision_detection->detect_collision(
-            std::vector<sf::Vector2f>{
-            sf::Vector2f(player_position.x + 16.0f, player_position.y + 16.0f),
-                sf::Vector2f(player_position.x - 16.0f, player_position.y + 16.0f),
-                sf::Vector2f(player_position.x - 16.0f, player_position.y - 16.0f),
-                sf::Vector2f(player_position.x + 16.0f, player_position.y - 16.0f)},
-            std::vector<sf::Vector2f>{get_position(), _fov_vector_u, _fov_vector_v});
-        if (collision)
-        {
-            return true;
-        }
     }
     return false;
 }
