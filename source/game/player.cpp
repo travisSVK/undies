@@ -13,6 +13,8 @@ void Player::start()
 
 void Player::update(float delta_time)
 {
+    float speed = 128.0f;
+
     if (_is_moving)
     {
         float scaling = LevelManager::get()->tile_scaling();
@@ -20,7 +22,7 @@ void Player::update(float delta_time)
         {
         case Direction::UP:
         {
-            move(0.0f, -10.0f * delta_time);
+            move(0.0f, -speed * delta_time);
             if (get_position().y < _target_y * scaling)
             {
                 set_position(_target_x * scaling, _target_y * scaling);
@@ -30,7 +32,7 @@ void Player::update(float delta_time)
         }
         case Direction::DOWN:
         {
-            move(0.0f, 10.0f * delta_time);
+            move(0.0f, speed * delta_time);
             if (get_position().y > _target_y * scaling)
             {
                 set_position(_target_x * scaling, _target_y * scaling);
@@ -40,7 +42,7 @@ void Player::update(float delta_time)
         }
         case Direction::LEFT:
         {
-            move(-10.0f * delta_time, 0.0f);
+            move(-speed * delta_time, 0.0f);
             if (get_position().x < _target_x * scaling)
             {
                 set_position(_target_x * scaling, _target_y * scaling);
@@ -50,7 +52,7 @@ void Player::update(float delta_time)
         }
         case Direction::RIGHT:
         {
-            move(10.0f * delta_time, 0.0f);
+            move(speed * delta_time, 0.0f);
             if (get_position().x > _target_x * scaling)
             {
                 set_position(_target_x * scaling, _target_y * scaling);
@@ -77,7 +79,7 @@ void Player::handle_events(sf::Event& e)
     {
         if (e.key.code == sf::Keyboard::Up)
         {
-            int y = _target_y + 1;
+            int y = _target_y - 1;
             if (LevelManager::get()->is_walkable(_target_x, y))
             {
                 _target_y = y;
@@ -87,7 +89,7 @@ void Player::handle_events(sf::Event& e)
         }
         else if (e.key.code == sf::Keyboard::Down)
         {
-            int y = _target_y - 1;
+            int y = _target_y + 1;
             if (LevelManager::get()->is_walkable(_target_x, y))
             {
                 _target_y = y;
