@@ -20,6 +20,7 @@ public:
 
 public:
     Enemy(int target_x, int target_y, float move_speed);
+    ~Enemy();
 
     void set_grid_position(int target_x, int target_y);
     void attach_player_entity(Player *player);
