@@ -7,6 +7,7 @@ class Player : public Entity
 public:
 	Player(int target_x, int target_y);
 
+	sf::Vector2i get_grid_position();
 	void set_grid_position(int target_x, int target_y);
 
 

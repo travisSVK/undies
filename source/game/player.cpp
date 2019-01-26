@@ -9,8 +9,16 @@ Player::Player(int target_x, int target_y)
 	set_grid_position(target_x, target_y);
 }
 
+sf::Vector2i Player::get_grid_position()
+{
+	//honestly this is misusing target x/y. but whatever
+	return sf::Vector2<int>(_target_x, _target_y);
+}
+
 void Player::set_grid_position(int target_x, int target_y)
 {
+	//set both target and position to the arguments
+	//may bug out if used while moving? idk
 	_target_x = target_x;
 	_target_y = target_y;
 	float scaling = LevelManager::get()->tile_scaling();
