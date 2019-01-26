@@ -9,6 +9,7 @@ public:
 
 	void set_grid_position(int target_x, int target_y);
 
+
 private:
 
     enum class Direction

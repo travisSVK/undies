@@ -6,61 +6,89 @@
 #include "component/sprite_component.hpp"
 #include "component/fov_component.hpp"
 #include "managers/render_manager.hpp"
+#include "i_collision_detection.hpp"
 
 #define PI 3.14159265
+
+Enemy::Enemy(int target_x, int target_y, float move_speed) : Entity()
+{
+    _move_speed = move_speed;
+    set_origin(16.0f, 16.0f);
+    _fov_shape.setPointCount(3);
+    set_grid_position(target_x, target_y);
+}
+
+void Enemy::set_grid_position(int target_x, int target_y)
+{
+    _target_x = target_x;
+    _target_y = target_y;
+    float scaling = LevelManager::get()->tile_scaling();
+    set_position(_target_x*scaling + 16, _target_y*scaling + 16);
+}
 
 void Enemy::start()
 {
     RenderManager::get()->load_fov_component(this);
+    RenderManager::get()->load_sprite_component(this, "data/graphics/Father1.png");
 }
 
 void Enemy::update(float delta_time)
-{
-    float move_speed = 0.0f;
-    update_movement(move_speed);
-    update_fov();
+{   
     float scaling = LevelManager::get()->tile_scaling();
     switch (_move_dir)
     {
     case Direction::UP:
     {
-        move(0.0f, -move_speed * delta_time);
-        if (get_position().y < _target_y * scaling)
+        move(0.0f, -_move_speed * delta_time);
+        if (get_position().y < (_target_y * scaling + 16))
         {
-            set_position(_target_x * scaling, _target_y * scaling);
+            set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
+            update_movement();
         }
         break;
     }
     case Direction::DOWN:
     {
-        move(0.0f, move_speed * delta_time);
-        if (get_position().y > _target_y * scaling)
+        move(0.0f, _move_speed * delta_time);
+        if (get_position().y > (_target_y * scaling + 16))
         {
-            set_position(_target_x * scaling, _target_y * scaling);
+            set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
+            update_movement();
         }
         break;
     }
     case Direction::LEFT:
     {
-        move(-move_speed * delta_time, 0.0f);
-        if (get_position().x < _target_x * scaling)
+        move(-_move_speed * delta_time, 0.0f);
+        if (get_position().x < _target_x * scaling + 16)
         {
-            set_position(_target_x * scaling, _target_y * scaling);
+            update_movement();
+            // check if direction changed
+            if (_move_dir == Direction::LEFT)
+            {
+                set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
+            }
         }
         break;
     }
     case Direction::RIGHT:
     {
-        move(move_speed * delta_time, 0.0f);
-        if (get_position().x > _target_x * scaling)
+        move(_move_speed * delta_time, 0.0f);
+        if (get_position().x > _target_x * scaling + 16)
         {
-            set_position(_target_x * scaling, _target_y * scaling);
+            update_movement();
+            // check if direction changed
+            if (_move_dir == Direction::RIGHT)
+            {
+                set_position(_target_x * scaling + 16.0f, _target_y * scaling + 16.0f);
+            }
         }
         break;
     }
     default:
         break;
     }
+    update_fov();
 }
 
 void Enemy::attach_player_entity(Player *player)
@@ -71,15 +99,34 @@ void Enemy::attach_player_entity(Player *player)
     }
 }
 
-void Enemy::set_fov(float fov)
-{
-    _fov_angle = fov;
-    _fov_shape.setPointCount(3);
-}
-
 void Enemy::set_move_direction(Direction move_dir)
 {
     _move_dir = move_dir;
+    switch (_move_dir)
+    {
+    case Direction::UP:
+    {
+        _target_y -= 1;
+        break;
+    }
+    case Direction::DOWN:
+    {
+        _target_y += 1;
+        break;
+    }
+    case Direction::LEFT:
+    {
+        _target_x -= 1;
+        break;
+    }
+    case Direction::RIGHT:
+    {
+        _target_x += 1;
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void Enemy::set_movement_strategy(IMovementStrategy *movement_strategy)
@@ -87,22 +134,51 @@ void Enemy::set_movement_strategy(IMovementStrategy *movement_strategy)
     _movement_strategy = movement_strategy;
 }
 
-void Enemy::update_movement(float move_speed)
+void Enemy::set_collision_strategy(ICollisionDetection *collision_detection)
 {
-    _movement_strategy->update_movement(_move_dir, move_speed, _target_x, _target_y);
+    _collision_detection = collision_detection;
 }
 
-void Enemy::check_player_detection() const
+void Enemy::update_movement()
+{
+    _movement_strategy->update_movement(_move_dir, _target_x, _target_y);
+}
+
+bool Enemy::check_player_detection() const
 {
     SpriteComponent* sprite_component = _player->get_component<SpriteComponent>();
     if (sprite_component)
     {
-        sf::Vector2f sprite_scale = sprite_component->get_sprite_scale();
         // check if the player is intersecting the FOV
         sf::Vector2f player_position = _player->get_position();
 
         // Use SAT to detect polygon detections
+        bool collision = _collision_detection->detect_collision(
+            std::vector<sf::Vector2f>{get_position(), _fov_vector_u, _fov_vector_v}, 
+            std::vector<sf::Vector2f>{
+                sf::Vector2f(player_position.x + 16.0f, player_position.y + 16.0f),
+                sf::Vector2f(player_position.x - 16.0f, player_position.y + 16.0f),
+                sf::Vector2f(player_position.x - 16.0f, player_position.y - 16.0f),
+                sf::Vector2f(player_position.x + 16.0f, player_position.y - 16.0f)});
+
+        if (collision)
+        {
+            return true;
+        }
+
+        collision = _collision_detection->detect_collision(
+            std::vector<sf::Vector2f>{
+            sf::Vector2f(player_position.x + 16.0f, player_position.y + 16.0f),
+                sf::Vector2f(player_position.x - 16.0f, player_position.y + 16.0f),
+                sf::Vector2f(player_position.x - 16.0f, player_position.y - 16.0f),
+                sf::Vector2f(player_position.x + 16.0f, player_position.y - 16.0f)},
+            std::vector<sf::Vector2f>{get_position(), _fov_vector_u, _fov_vector_v});
+        if (collision)
+        {
+            return true;
+        }
     }
+    return false;
 }
 
 void Enemy::update_fov()
@@ -112,7 +188,9 @@ void Enemy::update_fov()
     {
     case Direction::UP:
     {
-        float y = _player->get_position().y - 1.0f;
+        _fov_vector_v = sf::Vector2f(get_position().x + 50, get_position().y - 100);
+        _fov_vector_u = sf::Vector2f(get_position().x - 50, get_position().y - 100);
+        /*float y = _player->get_position().y - 1.0f;
         float x = _player->get_position().x;
         x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
@@ -122,12 +200,14 @@ void Enemy::update_fov()
         x = _player->get_position().x;
         x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_u = sf::Vector2f(x, y);
+        _fov_vector_u = sf::Vector2f(x, y);*/
         break;
     }
     case Direction::DOWN:
     {
-        float y = _player->get_position().y + 1.0f;
+        _fov_vector_v = sf::Vector2f(get_position().x - 50, get_position().y + 100);
+        _fov_vector_u = sf::Vector2f(get_position().x + 50, get_position().y + 100);
+        /*float y = _player->get_position().y + 1.0f;
         float x = _player->get_position().x;
         x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
@@ -137,12 +217,14 @@ void Enemy::update_fov()
         x = _player->get_position().x;
         x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_u = sf::Vector2f(x, y);
+        _fov_vector_u = sf::Vector2f(x, y);*/
         break;
     }
     case Direction::LEFT:
     {
-        float y = _player->get_position().y ;
+        _fov_vector_v = sf::Vector2f(get_position().x - 100, get_position().y + 50);
+        _fov_vector_u = sf::Vector2f(get_position().x - 100, get_position().y - 50);
+        /*float y = _player->get_position().y ;
         float x = _player->get_position().x - 1.0f;
         x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
@@ -153,11 +235,14 @@ void Enemy::update_fov()
         x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
         _fov_vector_u = sf::Vector2f(x, y);
+        break;*/
         break;
     }
     case Direction::RIGHT:
     {
-        float y = _player->get_position().y;
+        _fov_vector_v = sf::Vector2f(get_position().x + 100, get_position().y - 50);
+        _fov_vector_u = sf::Vector2f(get_position().x + 100, get_position().y + 50);
+        /*float y = _player->get_position().y;
         float x = _player->get_position().x + 1.0f;
         x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
@@ -167,13 +252,13 @@ void Enemy::update_fov()
         x = _player->get_position().x;
         x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
         y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_u = sf::Vector2f(x, y);
+        _fov_vector_u = sf::Vector2f(x, y);*/
         break;
     }
     default:
         break;
     }
-    _fov_shape.setPoint(0, sf::Vector2f(_player->get_position().x, _player->get_position().y));
+    _fov_shape.setPoint(0, sf::Vector2f(get_position().x, get_position().y));
     _fov_shape.setPoint(1, _fov_vector_u);
     _fov_shape.setPoint(2, _fov_vector_v);
     FovComponent *fov_component = get_component<FovComponent>();

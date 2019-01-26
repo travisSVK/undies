@@ -7,5 +7,5 @@ class StandingStrategy : public IMovementStrategy
 {
 public:
     // just leave the direction as it is without any movement speed
-    void update_movement(Enemy::Direction &move_dir, float &move_speed, int target_x, int target_y) override;
+    void update_movement(Enemy::Direction &move_dir, int &target_x, int &target_y) override;
 };

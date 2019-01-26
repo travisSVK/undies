@@ -1,9 +1,8 @@
 #include "back_and_forth_strategy.hpp"
 #include "managers/level_manager.hpp"
 
-void BackAndForthStrategy::update_movement(Enemy::Direction &move_dir, float &move_speed, int target_x, int target_y)
+void BackAndForthStrategy::update_movement(Enemy::Direction &move_dir, int &target_x, int &target_y)
 {
-    move_speed = 128.0f;
     switch (move_dir)
     {
     case Enemy::Direction::UP:
@@ -12,7 +11,6 @@ void BackAndForthStrategy::update_movement(Enemy::Direction &move_dir, float &mo
         if (LevelManager::get()->is_walkable(target_x, y))
         {
             target_y = y;
-            move_dir = Enemy::Direction::UP;
         }
         else
         {
@@ -32,7 +30,6 @@ void BackAndForthStrategy::update_movement(Enemy::Direction &move_dir, float &mo
         if (LevelManager::get()->is_walkable(target_x, y))
         {
             target_y = y;
-            move_dir = Enemy::Direction::DOWN;
         }
         else
         {
@@ -52,7 +49,6 @@ void BackAndForthStrategy::update_movement(Enemy::Direction &move_dir, float &mo
         if (LevelManager::get()->is_walkable(x, target_y))
         {
             target_x = x;
-            move_dir = Enemy::Direction::LEFT;
         }
         else
         {
@@ -72,7 +68,6 @@ void BackAndForthStrategy::update_movement(Enemy::Direction &move_dir, float &mo
         if (LevelManager::get()->is_walkable(x, target_y))
         {
             target_x = x;
-            move_dir = Enemy::Direction::RIGHT;
         }
         else
         {

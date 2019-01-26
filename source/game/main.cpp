@@ -3,6 +3,8 @@
 #include "managers/sound_manager.hpp"
 #include "managers/level_manager.hpp"
 #include "standing_strategy.hpp"
+#include "back_and_forth_strategy.hpp"
+#include "sat_collision_detection.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
 
@@ -30,15 +32,15 @@ int main(int argc, char* argv)
     sf::Clock clock;
     float delta_time = 0.0f;
 
-    Enemy* enemy = new Enemy();
-    StandingStrategy* str = new StandingStrategy();
+    Enemy* enemy = new Enemy(12, 12, 100.0f);
     entity_manager->register_entity(enemy);
 
     enemy->attach_player_entity(player);
     enemy->set_move_direction(Enemy::Direction::UP);
-    enemy->set_fov(90.0f);
+    BackAndForthStrategy* str = new BackAndForthStrategy();
     enemy->set_movement_strategy(str);
-    enemy->set_position(16 * 32, 16 * 32);
+    SatCollisionDetection* sat = new SatCollisionDetection();
+    enemy->set_collision_strategy(sat);
 
     while (win.isOpen())
     {
@@ -51,6 +53,13 @@ int main(int argc, char* argv)
 
         // Render all objects.
         render_manager->render();
+
+        // TEST collision
+        bool collision = enemy->check_player_detection();
+        if (collision)
+        {
+            break;
+        }
 
         win.display();
 
