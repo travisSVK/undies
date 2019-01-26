@@ -5,7 +5,7 @@
 void Player::start()
 {
     // add sprite component.
-    SpriteComponent* sprite = RenderManager::get()->load_sprite_component(this, "data/ugly_face.png");
+    SpriteComponent* sprite = RenderManager::get()->load_sprite_component(this, "data/player.png");
     
     _is_moving = false;
     _dir = Direction::UP;
