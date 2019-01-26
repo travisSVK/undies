@@ -18,9 +18,9 @@ int main(int argc, char* argv)
 
     render_manager->start_up(&win);
     level_manager->start_up();
-    level_manager->load_level("data/level_01.txt");
+    level_manager->load_level("data/level_test.txt");
 
-    Entity* player = new Player();
+    Entity* player = new Player(2, 13);
     entity_manager->register_entity(player);
     SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
     sound_manager->play_sound("mainsound");

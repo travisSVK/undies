@@ -28,9 +28,9 @@ void LevelManager::start_up()
         _tile_prototype[index].texture.loadFromFile(filepath);
     }
 
-    for (int x = 0; x < 32; ++x)
+    for (int x = 0; x < MAX_X; ++x)
     {
-        for (int y = 0; y < 32; ++y)
+        for (int y = 0; y < MAX_Y; ++y)
         {
             _level_tiles[x][y].sprite.setPosition(sf::Vector2f(x * 32, y * 32));
             _level_tiles[x][y].sprite.setTexture(_tile_prototype[0].texture);
@@ -44,12 +44,12 @@ void LevelManager::shut_down()
 
 bool LevelManager::is_walkable(int x, int y)
 {
-    if (x >= 32 || x < 0)
+    if (x >= MAX_X || x < 0)
     {
         return false;
     }
 
-    if (y >= 32 || y < 0)
+    if (y >= MAX_Y || y < 0)
     {
         return false;
     }
@@ -66,7 +66,7 @@ void LevelManager::load_level(const std::string& filename)
 {
     std::ifstream level(filename);
 
-    for (int y = 0; y < 32; ++y)
+    for (int y = 0; y < MAX_Y; ++y)
     {
         std::string line;
         std::getline(level, line);
@@ -85,7 +85,7 @@ void LevelManager::load_level(const std::string& filename)
 
 void LevelManager::render(sf::RenderWindow& win)
 {
-    for (int x = 0; x < 32; ++x)
+    for (int x = 0; x < MAX_X; ++x)
     {
         for (int y = 0; y < 32; ++y)
         {

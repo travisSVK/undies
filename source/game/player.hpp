@@ -4,6 +4,11 @@
 
 class Player : public Entity
 {
+public:
+	Player(int target_x, int target_y);
+
+	void set_grid_position(int target_x, int target_y);
+
 private:
 
     enum class Direction

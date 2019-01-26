@@ -43,4 +43,7 @@ private:
     LevelTile _level_tiles[32][32];
 
     std::vector<TilePrototype> _tile_prototype;
+
+	const int MAX_X = 24;
+	const int MAX_Y = 15;
 };
