@@ -22,7 +22,7 @@ void Game::start()
     SoundManager::get()->load_sound_component(this, "data/music/menu.wav", "menu");
     SoundManager::get()->load_sound_component(this, "data/music/pick_up.wav", "menu_option");
 
-    SoundManager::get()->play_sound("menu");
+    SoundManager::get()->play_sound("menu", true);
 
     _game_state = GameState::MENU;
 
@@ -187,7 +187,7 @@ void Game::menu_to_game()
     LevelManager* level_manager = LevelManager::get();
 
     SoundManager::get()->stop_sound("menu");
-    SoundManager::get()->play_sound("main_theme");
+    SoundManager::get()->play_sound("main_theme", true);
 
     _left_player->set_enabled(false);
     _right_player->set_enabled(false);
