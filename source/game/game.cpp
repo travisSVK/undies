@@ -26,12 +26,16 @@ void Game::start()
 
     _game_state = GameState::MENU;
 
+    _is_finished = false;
+
     _left_player = new Entity();
     _right_player = new Entity();
 
     _left_selected = true;
     _left_down = true;
     _right_down = false;
+
+    _end_selected = false;
 
     _left_scale = 3.5f;
     _right_scale = 3.0f;
@@ -74,11 +78,14 @@ void Game::update(float delta_time)
     case Game::GameState::GAME_TO_GAME_OVER:
         game_to_game_over();
         break;
-    case Game::GameState::GAME_OVER:
-        game_to_game_over();
-        break;
     case Game::GameState::GAME_OVER_TO_MENU:
         game_to_game_over();
+        break;
+    case Game::GameState::GAME_OVER:
+        game_over(delta_time);
+        break;
+    case Game::GameState::EXIT:
+        exit();
         break;
     default:
         break;
@@ -92,17 +99,11 @@ void Game::handle_events(sf::Event& e)
     case Game::GameState::MENU:
         menu(e);
         break;
-    case Game::GameState::MENU_TO_GAME:
-        break;
     case Game::GameState::GAME:
         game(e);
         break;
-    case Game::GameState::GAME_TO_GAME_OVER:
-        game_to_game_over();
-        break;
     case Game::GameState::GAME_OVER:
-        break;
-    case Game::GameState::GAME_OVER_TO_MENU:
+        game_over(e);
         break;
     default:
         break;
@@ -209,20 +210,20 @@ void Game::menu_to_game()
     {
         RenderManager::get()->load_sprite_component(_player, "data/graphics/Sister1.png");
     }
-
     _background->set_enabled(false);
 
-    _enemy = new Enemy(12, 12, 128.0f);
-    EntityManager::get()->register_entity(_enemy);
+    Enemy *enemy = new Enemy(12, 12, 128.0f);
+    EntityManager::get()->register_entity(enemy);
     
-    _enemy->attach_player_entity(_player);
-    _enemy->set_move_direction(Enemy::Direction::UP);
+    enemy->attach_player_entity(_player);
+    enemy->set_move_direction(Enemy::Direction::UP);
 
     BackAndForthStrategy* str = new BackAndForthStrategy();
-    _enemy->set_movement_strategy(str);
+    enemy->set_movement_strategy(str);
     
     SatCollisionDetection* sat = new SatCollisionDetection();
-    _enemy->set_collision_strategy(sat);
+    enemy->set_collision_strategy(sat);
+    _enemies.push_back(enemy);
 
     level_manager->load_level("data/level_test.txt");
 
@@ -231,11 +232,15 @@ void Game::menu_to_game()
 
 void Game::game(float delta_time)
 {
-    bool collision = _enemy->check_player_detection();
-    if (collision)
+    for (auto enemy : _enemies)
     {
-        _game_state = GameState::GAME_TO_GAME_OVER;
+        bool collision = enemy->check_player_detection();
+        if (collision)
+        {
+            _game_state = GameState::GAME_TO_GAME_OVER;
+        }
     }
+    
 }
 
 void Game::game(sf::Event & e)
@@ -244,5 +249,117 @@ void Game::game(sf::Event & e)
 
 void Game::game_to_game_over()
 {
-    _game_state = GameState::MENU;
+    for (auto enemy : _enemies)
+    {
+        EntityManager::get()->deregister_entity(enemy);
+        delete enemy;
+    }
+    _enemies.clear();
+    EntityManager::get()->deregister_entity(_player);
+    delete _player;
+
+    _left_player->set_enabled(true);
+    _right_player->set_enabled(true);
+    _background->set_enabled(true);
+    _left_down = true;
+    _right_down = false;
+    _game_state = GameState::GAME_OVER;
+    SoundManager::get()->play_sound("menu");
+    SoundManager::get()->stop_sound("main_theme");
+}
+
+void Game::game_over(float delta_time)
+{
+    if (!_end_selected)
+    {
+        if (_left_down)
+        {
+            _left_scale -= delta_time * 3.0f;
+            if (_left_scale < 3.0f)
+            {
+                _left_scale = 3.0f;
+                _left_down = false;
+            }
+        }
+        else
+        {
+            _left_scale += delta_time * 3.0f;
+            if (_left_scale > 3.5f)
+            {
+                _left_scale = 3.5f;
+                _left_down = true;
+            }
+        }
+
+        _right_scale = 3.0f;
+    }
+    else
+    {
+        if (_right_down)
+        {
+            _right_scale -= delta_time * 3.0f;
+            if (_right_scale < 3.0f)
+            {
+                _left_scale = 3.0f;
+                _right_down = false;
+            }
+        }
+        else
+        {
+            _right_scale += delta_time * 3.0f;
+            if (_right_scale > 3.5f)
+            {
+                _right_scale = 3.5f;
+                _right_down = true;
+            }
+        }
+
+        _left_scale = 3.0f;
+    }
+
+    _left_player->set_scale(_left_scale, _left_scale);
+    _right_player->set_scale(_right_scale, _right_scale);
+}
+
+void Game::game_over(sf::Event& e)
+{
+    if (e.type == sf::Event::KeyPressed)
+    {
+        if (e.key.code == sf::Keyboard::Left)
+        {
+            _end_selected = false;
+        }
+        else if (e.key.code == sf::Keyboard::Right)
+        {
+            _end_selected = true;
+        }
+        else if (e.key.code == sf::Keyboard::Enter)
+        {
+            if (_end_selected)
+            {
+                _game_state = GameState::EXIT;
+            }
+            else
+            {
+                _game_state = GameState::MENU_TO_GAME;
+            }
+        }
+    }
+}
+
+void Game::exit()
+{
+    EntityManager::get()->deregister_entity(_left_player);
+    EntityManager::get()->deregister_entity(_right_player);
+    EntityManager::get()->deregister_entity(_background);
+    delete _left_player;
+    delete _right_player;
+    delete _background;
+
+    _is_finished = true;
+}
+
+bool Game::is_finished()
+{
+    return _is_finished;
 }

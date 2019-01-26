@@ -48,7 +48,7 @@ int main(int argc, char* argv)
     {
         entity_manager->handle_events(win);
         entity_manager->update(delta_time);
-
+        
         win.clear();
 
         level_manager->render(win);
@@ -61,6 +61,11 @@ int main(int argc, char* argv)
         sf::Time time = clock.getElapsedTime();
         clock.restart();
         delta_time = time.asSeconds();
+
+        if (game->is_finished())
+        {
+            break;
+        }
     }
 
     level_manager->shut_down();

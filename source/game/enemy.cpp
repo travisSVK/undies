@@ -190,69 +190,24 @@ void Enemy::update_fov()
     {
         _fov_vector_v = sf::Vector2f(get_position().x + 50, get_position().y - 100);
         _fov_vector_u = sf::Vector2f(get_position().x - 50, get_position().y - 100);
-        /*float y = _player->get_position().y - 1.0f;
-        float x = _player->get_position().x;
-        x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_v = sf::Vector2f(x, y);
-
-        y = _player->get_position().y - 1.0f;
-        x = _player->get_position().x;
-        x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_u = sf::Vector2f(x, y);*/
         break;
     }
     case Direction::DOWN:
     {
         _fov_vector_v = sf::Vector2f(get_position().x - 50, get_position().y + 100);
         _fov_vector_u = sf::Vector2f(get_position().x + 50, get_position().y + 100);
-        /*float y = _player->get_position().y + 1.0f;
-        float x = _player->get_position().x;
-        x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_v = sf::Vector2f(x, y);
-
-        y = _player->get_position().y + 1.0f;
-        x = _player->get_position().x;
-        x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_u = sf::Vector2f(x, y);*/
         break;
     }
     case Direction::LEFT:
     {
         _fov_vector_v = sf::Vector2f(get_position().x - 100, get_position().y + 50);
         _fov_vector_u = sf::Vector2f(get_position().x - 100, get_position().y - 50);
-        /*float y = _player->get_position().y ;
-        float x = _player->get_position().x - 1.0f;
-        x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_v = sf::Vector2f(x, y);
-
-        y = _player->get_position().y - 1.0f;
-        x = _player->get_position().x;
-        x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_u = sf::Vector2f(x, y);
-        break;*/
         break;
     }
     case Direction::RIGHT:
     {
         _fov_vector_v = sf::Vector2f(get_position().x + 100, get_position().y - 50);
         _fov_vector_u = sf::Vector2f(get_position().x + 100, get_position().y + 50);
-        /*float y = _player->get_position().y;
-        float x = _player->get_position().x + 1.0f;
-        x = (x * cos(_fov_angle / 2.0f * PI / 180.0f)) + (y * sin(_fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(_fov_angle / 2.0f * PI / 180.0f)) + (y * cos(_fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_v = sf::Vector2f(x, y);
-
-        y = _player->get_position().y + 1.0f;
-        x = _player->get_position().x;
-        x = (x * cos((360.0f - _fov_angle) / 2.0f * PI / 180.0f)) + (y * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        y = (-x * sin(360.0f - _fov_angle / 2.0f * PI / 180.0f)) + (y * cos(360.0f - _fov_angle / 2.0f * PI / 180.0f));
-        _fov_vector_u = sf::Vector2f(x, y);*/
         break;
     }
     default:
