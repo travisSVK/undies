@@ -1,6 +1,7 @@
 #include "managers/entity_manager.hpp"
 #include "managers/render_manager.hpp"
 #include "managers/sound_manager.hpp"
+#include "managers/level_manager.hpp"
 #include "player.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -13,8 +14,11 @@ int main(int argc, char* argv)
     SoundManager* sound_manager = SoundManager::get();
     EntityManager* entity_manager = EntityManager::get();
     RenderManager* render_manager = RenderManager::get(); // = RenderManager::get();
+    LevelManager* level_manager = LevelManager::get();
 
     render_manager->start_up(&win);
+    level_manager->start_up();
+    level_manager->load_level("data/level_01.txt");
 
     Entity* player = new Player();
     entity_manager->register_entity(player);
@@ -31,6 +35,8 @@ int main(int argc, char* argv)
 
         win.clear();
 
+        level_manager->render(win);
+
         // Render all objects.
         render_manager->render();
 
@@ -41,6 +47,7 @@ int main(int argc, char* argv)
         delta_time = time.asSeconds();
     }
 
+    level_manager->shut_down();
     render_manager->shut_down();
     sound_manager->shut_down();
 

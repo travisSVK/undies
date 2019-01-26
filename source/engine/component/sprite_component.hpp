@@ -1,9 +1,10 @@
 #pragma once
+#include "../engine_api.hpp"
 #include "component.hpp"
 #include "SFML/Graphics.hpp"
 #include "../managers/render_manager.hpp"
 
-class SpriteComponent : public Component
+class ENGINE_API SpriteComponent : public Component
 {
     friend RenderManager;
 
