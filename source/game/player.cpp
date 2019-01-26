@@ -5,6 +5,7 @@
 Player::Player(int target_x, int target_y)
 	: Entity()
 {
+    set_origin(16.0f, 16.0f);
 	set_grid_position(target_x, target_y);
 }
 
@@ -13,7 +14,7 @@ void Player::set_grid_position(int target_x, int target_y)
 	_target_x = target_x;
 	_target_y = target_y;
 	float scaling = LevelManager::get()->tile_scaling();
-	set_position(_target_x*scaling, _target_y*scaling);
+	set_position(_target_x*scaling+16, _target_y*scaling+16);
 }
 
 
@@ -21,9 +22,6 @@ void Player::start()
 {
     // add sprite component.
     SpriteComponent* sprite = RenderManager::get()->load_sprite_component(this, "data/graphics/Sister1.png");
-
-    set_origin(16.0f, 16.0f);
-    set_position(16.0f, 16.0f);
     
     _is_moving = false;
     _dir = Direction::UP;

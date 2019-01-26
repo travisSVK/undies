@@ -45,5 +45,5 @@ private:
 
     LevelTile _level_tiles[MAX_X][MAX_Y];
 
-    std::vector<TilePrototype> _tile_prototype;
+    std::map<char, TilePrototype> _tile_prototype;
 };
