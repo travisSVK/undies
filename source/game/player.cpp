@@ -13,8 +13,6 @@ void Player::start()
 
 void Player::update(float delta_time)
 {
-    typeid(Player)
-
     if (_is_moving)
     {
         float scaling = LevelManager::get()->tile_scaling();
