@@ -6,6 +6,9 @@ void Player::start()
 {
     // add sprite component.
     SpriteComponent* sprite = RenderManager::get()->load_sprite_component(this, "data/graphics/Sister1.png");
+
+    set_origin(16.0f, 16.0f);
+    set_position(16.0f, 16.0f);
     
     _is_moving = false;
     _dir = Direction::UP;
@@ -23,9 +26,9 @@ void Player::update(float delta_time)
         case Direction::UP:
         {
             move(0.0f, -speed * delta_time);
-            if (get_position().y < _target_y * scaling)
+            if (get_position().y < (_target_y * scaling) + 16.0f)
             {
-                set_position(_target_x * scaling, _target_y * scaling);
+                set_position((_target_x * scaling) + 16.0f, (_target_y * scaling) + 16.0f);
                 _is_moving = false;
             }
             break;
@@ -33,9 +36,9 @@ void Player::update(float delta_time)
         case Direction::DOWN:
         {
             move(0.0f, speed * delta_time);
-            if (get_position().y > _target_y * scaling)
+            if (get_position().y > (_target_y * scaling) + 16.0f)
             {
-                set_position(_target_x * scaling, _target_y * scaling);
+                set_position((_target_x * scaling) + 16.0f, (_target_y * scaling) + 16.0f);
                 _is_moving = false;
             }
             break;
@@ -43,9 +46,9 @@ void Player::update(float delta_time)
         case Direction::LEFT:
         {
             move(-speed * delta_time, 0.0f);
-            if (get_position().x < _target_x * scaling)
+            if (get_position().x < (_target_x * scaling) + 16.0f)
             {
-                set_position(_target_x * scaling, _target_y * scaling);
+                set_position((_target_x * scaling) + 16.0f, (_target_y * scaling) + 16.0f);
                 _is_moving = false;
             }
             break;
@@ -53,9 +56,9 @@ void Player::update(float delta_time)
         case Direction::RIGHT:
         {
             move(speed * delta_time, 0.0f);
-            if (get_position().x > _target_x * scaling)
+            if (get_position().x > (_target_x * scaling) + 16.0f)
             {
-                set_position(_target_x * scaling, _target_y * scaling);
+                set_position((_target_x * scaling) + 16.0f, (_target_y * scaling) + 16.0f);
                 _is_moving = false;
             }
             break;
@@ -83,6 +86,7 @@ void Player::handle_events(sf::Event& e)
             if (LevelManager::get()->is_walkable(_target_x, y))
             {
                 _target_y = y;
+                set_rotation(0.0f);
                 _is_moving = true;
                 _dir = Direction::UP;
             }
@@ -92,6 +96,7 @@ void Player::handle_events(sf::Event& e)
             int y = _target_y + 1;
             if (LevelManager::get()->is_walkable(_target_x, y))
             {
+                set_rotation(180.0f);
                 _target_y = y;
                 _is_moving = true;
                 _dir = Direction::DOWN;
@@ -102,6 +107,7 @@ void Player::handle_events(sf::Event& e)
             int x = _target_x - 1;
             if (LevelManager::get()->is_walkable(x, _target_y))
             {
+                set_rotation(270.0f);
                 _target_x = x;
                 _is_moving = true;
                 _dir = Direction::LEFT;
@@ -112,6 +118,7 @@ void Player::handle_events(sf::Event& e)
             int x = _target_x + 1;
             if (LevelManager::get()->is_walkable(x, _target_y))
             {
+                set_rotation(90.0f);
                 _target_x = x;
                 _is_moving = true;
                 _dir = Direction::RIGHT;

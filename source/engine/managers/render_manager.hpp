@@ -31,4 +31,3 @@ private:
     sf::RenderWindow *_main_window;
     std::vector<SpriteComponent *> _sprite_components;
 };
-
