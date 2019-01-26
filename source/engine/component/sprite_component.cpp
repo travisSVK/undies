@@ -1,4 +1,5 @@
 #include "sprite_component.hpp"
+#include "../managers/render_manager.hpp"
 
 void SpriteComponent::set_sprite(const std::string &_sprite_path)
 {
@@ -8,4 +9,9 @@ void SpriteComponent::set_sprite(const std::string &_sprite_path)
     }
 
     _sprite.setTexture(_texture);
+}
+
+SpriteComponent::~SpriteComponent()
+{
+    RenderManager::get()->deregister_sprite_component(this);
 }

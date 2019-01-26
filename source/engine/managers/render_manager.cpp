@@ -52,6 +52,30 @@ FovComponent *RenderManager::load_fov_component(Entity *_entity)
     return _fov_component;
 }
 
+void RenderManager::deregister_fov_component(FovComponent* fov)
+{
+    for (int i = 0; i < _fov_components.size(); ++i)
+    {
+        if (_fov_components[i] == fov)
+        {
+            _fov_components.erase(_fov_components.begin() + i);
+            return;
+        }
+    }
+}
+
+void RenderManager::deregister_sprite_component(SpriteComponent* sprite)
+{
+    for (int i = 0; i < _sprite_components.size(); ++i)
+    {
+        if (_sprite_components[i] == sprite)
+        {
+            _sprite_components.erase(_sprite_components.begin() + i);
+            return;
+        }
+    }
+}
+
 void RenderManager::start_up(sf::RenderWindow* win)
 {
     _main_window = win;

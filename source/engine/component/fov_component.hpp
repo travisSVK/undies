@@ -15,6 +15,7 @@ public:
 private:
 
     FovComponent() = default;
+    ~FovComponent();
     FovComponent(FovComponent const&) = delete;
     void operator=(FovComponent const&) = delete;
 

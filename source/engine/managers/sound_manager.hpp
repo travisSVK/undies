@@ -18,6 +18,8 @@ public:
     void start_up();
     void shut_down();
 
+    void deregister_sound_component(SoundComponent* sound);
+
 private:
     SoundManager() = default;
     ~SoundManager() = default;

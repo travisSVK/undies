@@ -17,4 +17,3 @@ private:
 
     Entity* _entity;
 };
-

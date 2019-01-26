@@ -33,13 +33,13 @@ int main(int argc, char* argv)
     Player* player = new Player(2, 13);
     entity_manager->register_entity(player);
 
-    Item* item_test = new Item("data/graphics/Sister1.png", 3, 13);
-   item_test->attach_player_entity(player);
-  entity_manager->register_entity(item_test);
+    // Item* item_test = new Item("data/graphics/Sister1.png", 3, 13);
+    // item_test->attach_player_entity(player);
+    // entity_manager->register_entity(item_test);
 
-	SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
-    sound_manager->play_sound("mainsound");
-	sound_manager->load_sound_component(item_test, "data/sfx/pick_up.wav", "pick_up");
+	// SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
+    // sound_manager->play_sound("mainsound");
+	// sound_manager->load_sound_component(item_test, "data/sfx/pick_up.wav", "pick_up");
 
     sf::Clock clock;
     float delta_time = 0.0f;
