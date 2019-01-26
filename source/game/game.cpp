@@ -47,6 +47,11 @@ void Game::start()
     _left_player->set_scale(_left_scale, _left_scale);
     _left_player->set_position((LevelManager::get()->MAX_X / 4) * 32, (LevelManager::get()->MAX_Y - 4) * 32);
 
+    _logo = new Entity();
+    RenderManager::get()->load_sprite_component(_logo, "data/graphics/logo.png");
+    _logo->set_scale(1.5f, 1.5f);
+    _logo->set_position(-25.0f, -250.0f);
+
     RenderManager::get()->load_sprite_component(_right_player, "data/graphics/Sister1.png");
     _right_player->set_origin(16.0f, 16.0f);
     _right_player->set_scale(_right_scale, _right_scale);
@@ -191,6 +196,7 @@ void Game::menu_to_game()
 
     _left_player->set_enabled(false);
     _right_player->set_enabled(false);
+    _logo->set_enabled(false);
 
     _player = new Player(2, 13);
     entity_manager->register_entity(_player);

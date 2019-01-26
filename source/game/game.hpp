@@ -62,6 +62,7 @@ private:
     Entity* _right_player;
     Entity* _background;
     Enemy* _enemy;
+    Entity* _logo;
 
     bool _left_selected;
     bool _left_down;
