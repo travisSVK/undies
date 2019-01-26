@@ -20,4 +20,4 @@ h data/graphics/walls/UndiesWallTiles-2.png 0 0
 j data/graphics/walls/UndiesWallTiles-3.png 0 0
 k data/graphics/walls/UndiesWallTiles-4.png 0 0
 l data/graphics/walls/UndiesWallTiles-5.png 0 0
-a data/graphics/walls/Table1.png 1 0
+a data/graphics/endstate.png 1 1
