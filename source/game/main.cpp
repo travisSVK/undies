@@ -2,14 +2,15 @@
 #include "managers/render_manager.hpp"
 #include "managers/sound_manager.hpp"
 #include "managers/level_manager.hpp"
+#include "standing_strategy.hpp"
 #include "player.hpp"
+#include "enemy.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
 int main(int argc, char* argv)
 {
-
     SoundManager* sound_manager = SoundManager::get();
     EntityManager* entity_manager = EntityManager::get();
     RenderManager* render_manager = RenderManager::get(); // = RenderManager::get();
@@ -21,7 +22,7 @@ int main(int argc, char* argv)
     level_manager->start_up();
     level_manager->load_level("data/level_test.txt");
 
-    Entity* player = new Player(2, 13);
+    Player* player = new Player(2, 13);
     entity_manager->register_entity(player);
     SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
     sound_manager->play_sound("mainsound");
@@ -29,7 +30,17 @@ int main(int argc, char* argv)
     sf::Clock clock;
     float delta_time = 0.0f;
 
-    while (true)
+    Enemy* enemy = new Enemy();
+    StandingStrategy* str = new StandingStrategy();
+    entity_manager->register_entity(enemy);
+
+    enemy->attach_player_entity(player);
+    enemy->set_move_direction(Enemy::Direction::UP);
+    enemy->set_fov(90.0f);
+    enemy->set_movement_strategy(str);
+    enemy->set_position(16 * 32, 16 * 32);
+
+    while (win.isOpen())
     {
         entity_manager->handle_events(win);
         entity_manager->update(delta_time);

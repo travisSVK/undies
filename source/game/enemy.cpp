@@ -5,11 +5,13 @@
 #include "managers/level_manager.hpp"
 #include "component/sprite_component.hpp"
 #include "component/fov_component.hpp"
+#include "managers/render_manager.hpp"
 
 #define PI 3.14159265
 
 void Enemy::start()
 {
+    RenderManager::get()->load_fov_component(this);
 }
 
 void Enemy::update(float delta_time)
