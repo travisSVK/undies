@@ -53,8 +53,9 @@ void Game::start()
 
     _logo = new Entity();
     RenderManager::get()->load_sprite_component(_logo, "data/graphics/logo.png");
-    _logo->set_scale(1.5f, 1.5f);
-    _logo->set_position(-25.0f, -250.0f);
+    _logo->set_scale(1.2f, 1.2f);
+    _logo->set_origin(256 / 2, 256 / 2);
+    _logo->set_position((LevelManager::get()->MAX_X * 32) / 2, 100.0f);
 
     RenderManager::get()->load_sprite_component(_right_player, "data/graphics/Sister1.png");
     _right_player->set_origin(16.0f, 16.0f);
