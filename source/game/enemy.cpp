@@ -18,6 +18,14 @@ Enemy::Enemy(int target_x, int target_y, float move_speed) : Entity()
     set_grid_position(target_x, target_y);
 }
 
+Enemy::~Enemy()
+{
+    delete _movement_strategy;
+    delete _collision_detection;
+
+    Entity::~Entity();
+}
+
 void Enemy::set_grid_position(int target_x, int target_y)
 {
     _target_x = target_x;
@@ -168,26 +176,26 @@ void Enemy::update_fov()
     {
     case Direction::UP:
     {
-        _fov_vector_v = sf::Vector2f(get_position().x + 50, get_position().y - 100);
-        _fov_vector_u = sf::Vector2f(get_position().x - 50, get_position().y - 100);
+        _fov_vector_v = sf::Vector2f(get_position().x + 15, get_position().y - 100);
+        _fov_vector_u = sf::Vector2f(get_position().x - 15, get_position().y - 100);
         break;
     }
     case Direction::DOWN:
     {
-        _fov_vector_v = sf::Vector2f(get_position().x - 50, get_position().y + 100);
-        _fov_vector_u = sf::Vector2f(get_position().x + 50, get_position().y + 100);
+        _fov_vector_v = sf::Vector2f(get_position().x - 15, get_position().y + 100);
+        _fov_vector_u = sf::Vector2f(get_position().x + 15, get_position().y + 100);
         break;
     }
     case Direction::LEFT:
     {
-        _fov_vector_v = sf::Vector2f(get_position().x - 100, get_position().y + 50);
-        _fov_vector_u = sf::Vector2f(get_position().x - 100, get_position().y - 50);
+        _fov_vector_v = sf::Vector2f(get_position().x - 100, get_position().y + 15);
+        _fov_vector_u = sf::Vector2f(get_position().x - 100, get_position().y - 15);
         break;
     }
     case Direction::RIGHT:
     {
-        _fov_vector_v = sf::Vector2f(get_position().x + 100, get_position().y - 50);
-        _fov_vector_u = sf::Vector2f(get_position().x + 100, get_position().y + 50);
+        _fov_vector_v = sf::Vector2f(get_position().x + 100, get_position().y - 15);
+        _fov_vector_u = sf::Vector2f(get_position().x + 100, get_position().y + 15);
         break;
     }
     default:
