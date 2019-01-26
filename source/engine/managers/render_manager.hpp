@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <string>
 
+class FovComponent;
 class SpriteComponent;
 class Component;
 class Entity;
@@ -17,6 +18,7 @@ public:
     void render();
 
     SpriteComponent *load_sprite_component(Entity *_entity, const std::string &_sprite_file);
+    FovComponent *load_fov_component(Entity *_entity);
 
     void start_up(sf::RenderWindow* win);
 
@@ -30,5 +32,6 @@ private:
     void operator=(RenderManager const&) = delete;
     sf::RenderWindow *_main_window;
     std::vector<SpriteComponent *> _sprite_components;
+    std::vector<FovComponent *> _fov_components;
 };
 
