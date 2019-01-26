@@ -22,7 +22,8 @@ private:
         GAME,
         GAME_TO_GAME_OVER,
         GAME_OVER,
-        GAME_OVER_TO_MENU
+        GAME_OVER_TO_MENU,
+        EXIT
     };
 
 public:
@@ -30,6 +31,8 @@ public:
     Game();
 
     ~Game();
+
+    bool is_finished();
 
 protected:
 
@@ -51,7 +54,13 @@ private:
 
     void game(sf::Event& e);
 
+    void game_over(sf::Event& e);
+
+    void game_over(float delta_time);
+
     void game_to_game_over();
+
+    void exit();
 
 private:
 
@@ -61,11 +70,14 @@ private:
     Entity* _left_player;
     Entity* _right_player;
     Entity* _background;
-    Enemy* _enemy;
+    std::vector<Enemy*> _enemies;
+
+    bool _is_finished;
 
     bool _left_selected;
     bool _left_down;
     bool _right_down;
+    bool _end_selected;
     float _left_scale;
     float _right_scale;
 };
