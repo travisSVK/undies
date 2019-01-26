@@ -37,6 +37,7 @@ void Item::update(float delta_time)
 	{
 		SoundManager::get()->play_sound("pick_up");
 		set_position(12413526, 346347); //kill it by throwing it out of the screen lol
+		EntityManager::get()->deregister_entity(this);
 		//todo: do the pickup stuff
 	}
 }
