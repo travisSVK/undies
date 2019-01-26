@@ -22,6 +22,7 @@ void Game::start()
     SoundManager::get()->load_sound_component(this, "data/music/menu.wav", "menu");
     SoundManager::get()->load_sound_component(this, "data/music/pick_up.wav", "menu_option");
     SoundManager::get()->load_sound_component(this, "data/music/caught.wav", "caught");
+    SoundManager::get()->load_sound_component(this, "data/music/level_complete.wav", "level_complete");
 
     SoundManager::get()->play_sound("menu", true);
 
@@ -40,6 +41,7 @@ void Game::start()
 
     _left_scale = 3.5f;
     _right_scale = 3.0f;
+    _level_num = 0;
 
     //_final_state.x = 
 
@@ -92,7 +94,10 @@ void Game::update(float delta_time)
         exit();
         break;
     case Game::GameState::LEVEL_FINISHED_TO_MENU:
-        //exit();
+        level_finished_to_menu();
+        break;
+    case Game::GameState::MENU_TO_NEW_LEVEL:
+        menu_to_new_level(delta_time);
         break;
     default:
         break;
@@ -111,6 +116,9 @@ void Game::handle_events(sf::Event& e)
         break;
     case Game::GameState::GAME_OVER:
         game_over(e);
+        break;
+    case Game::GameState::MENU_TO_NEW_LEVEL:
+        menu_to_new_level(e);
         break;
     default:
         break;
@@ -246,7 +254,7 @@ void Game::game(sf::Event & e)
 {
 }
 
-void Game::game_to_game_over()
+void Game::clean_level()
 {
     for (auto enemy : _enemies)
     {
@@ -256,7 +264,11 @@ void Game::game_to_game_over()
     _enemies.clear();
     EntityManager::get()->deregister_entity(_player);
     delete _player;
+}
 
+void Game::game_to_game_over()
+{
+    clean_level();
     _left_player->set_enabled(true);
     _right_player->set_enabled(true);
     _background->set_enabled(true);
@@ -264,8 +276,105 @@ void Game::game_to_game_over()
     _right_down = false;
     _game_state = GameState::GAME_OVER;
     SoundManager::get()->stop_sound("main_theme");
-    SoundManager::get()->stop_sound("caught");
-    SoundManager::get()->play_sound("caught");
+    SoundManager::get()->play_sound("caught", true);
+}
+
+void Game::level_finished_to_menu()
+{
+    clean_level();
+    _left_player->set_enabled(true);
+    _right_player->set_enabled(true);
+    _background->set_enabled(true);
+    _left_down = true;
+    _right_down = false;
+    _game_state = GameState::MENU_TO_NEW_LEVEL;
+    SoundManager::get()->stop_sound("main_theme");
+    SoundManager::get()->play_sound("level_complete", true);
+}
+
+void Game::menu_to_new_level(float delta_time)
+{
+    if (!_end_selected)
+    {
+        if (_left_down)
+        {
+            _left_scale -= delta_time * 3.0f;
+            if (_left_scale < 3.0f)
+            {
+                _left_scale = 3.0f;
+                _left_down = false;
+            }
+        }
+        else
+        {
+            _left_scale += delta_time * 3.0f;
+            if (_left_scale > 3.5f)
+            {
+                _left_scale = 3.5f;
+                _left_down = true;
+            }
+        }
+
+        _right_scale = 3.0f;
+    }
+    else
+    {
+        if (_right_down)
+        {
+            _right_scale -= delta_time * 3.0f;
+            if (_right_scale < 3.0f)
+            {
+                _left_scale = 3.0f;
+                _right_down = false;
+            }
+        }
+        else
+        {
+            _right_scale += delta_time * 3.0f;
+            if (_right_scale > 3.5f)
+            {
+                _right_scale = 3.5f;
+                _right_down = true;
+            }
+        }
+
+        _left_scale = 3.0f;
+    }
+
+    _left_player->set_scale(_left_scale, _left_scale);
+    _right_player->set_scale(_right_scale, _right_scale);
+}
+
+void Game::menu_to_new_level(sf::Event& e)
+{
+    if (e.type == sf::Event::KeyPressed)
+    {
+        if (e.key.code == sf::Keyboard::Left && _end_selected)
+        {
+            SoundManager::get()->stop_sound("menu_option");
+            SoundManager::get()->play_sound("menu_option");
+            _end_selected = false;
+        }
+        else if (e.key.code == sf::Keyboard::Right && !_end_selected)
+        {
+            SoundManager::get()->stop_sound("menu_option");
+            SoundManager::get()->play_sound("menu_option");
+            _end_selected = true;
+        }
+        else if (e.key.code == sf::Keyboard::Enter)
+        {
+            if (_end_selected)
+            {
+                _game_state = GameState::EXIT;
+            }
+            else
+            {
+                SoundManager::get()->stop_sound("caught");
+                ++_level_num;
+                _game_state = GameState::MENU_TO_GAME;
+            }
+        }
+    }
 }
 
 void Game::game_over(float delta_time)
@@ -345,6 +454,7 @@ void Game::game_over(sf::Event& e)
             }
             else
             {
+                SoundManager::get()->stop_sound("caught");
                 _game_state = GameState::MENU_TO_GAME;
             }
         }

@@ -24,6 +24,7 @@ private:
         GAME_OVER,
         GAME_OVER_TO_MENU,
         LEVEL_FINISHED_TO_MENU,
+        MENU_TO_NEW_LEVEL,
         EXIT
     };
 
@@ -61,6 +62,12 @@ private:
 
     void game_to_game_over();
 
+    void level_finished_to_menu();
+
+    void menu_to_new_level(float delta_time);
+
+    void menu_to_new_level(sf::Event& e);
+
     void exit();
 
     void deload_level();
@@ -74,6 +81,8 @@ private:
     void load_level_04();
 
     void load_level_05();
+
+    void clean_level();
 
 private:
 
@@ -94,4 +103,5 @@ private:
     bool _end_selected;
     float _left_scale;
     float _right_scale;
+    int _level_num;
 };
