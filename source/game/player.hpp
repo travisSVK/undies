@@ -4,6 +4,16 @@
 
 class Player : public Entity
 {
+private:
+
+    enum class Direction
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    };
+
 protected:
 
     void start() override;
@@ -14,5 +24,8 @@ protected:
 
 private:
 
-    sf::Vector2f _move_dir;
+    Direction _dir;
+    bool _is_moving;
+    int _target_x;
+    int _target_y;
 };

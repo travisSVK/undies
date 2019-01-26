@@ -12,6 +12,7 @@ public:
     void set_sprite(const std::string &_sprite_path);
 
 private:
+
     SpriteComponent() = default;
     SpriteComponent(SpriteComponent const&) = delete;
     void operator=(SpriteComponent const&) = delete;
