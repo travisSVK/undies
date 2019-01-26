@@ -42,7 +42,7 @@ void Player::update(float delta_time)
             if (get_position().y < (_target_y * scaling) + 16.0f)
             {
                 set_position((_target_x * scaling) + 16.0f, (_target_y * scaling) + 16.0f);
-                _is_moving = false;
+				_is_moving = false;
             }
             break;
         }
@@ -79,68 +79,58 @@ void Player::update(float delta_time)
         default:
             break;
         }
-    }
+	} 
+	else
+	{
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			int y = _target_y - 1;
+			if (LevelManager::get()->is_walkable(_target_x, y))
+			{
+				_target_y = y;
+				set_rotation(0.0f);
+				_is_moving = true;
+				_dir = Direction::UP;
+			}
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+			int y = _target_y + 1;
+			if (LevelManager::get()->is_walkable(_target_x, y))
+			{
+				set_rotation(180.0f);
+				_target_y = y;
+				_is_moving = true;
+				_dir = Direction::DOWN;
+			}
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			int x = _target_x - 1;
+			if (LevelManager::get()->is_walkable(x, _target_y))
+			{
+				set_rotation(270.0f);
+				_target_x = x;
+				_is_moving = true;
+				_dir = Direction::LEFT;
+			}
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			int x = _target_x + 1;
+			if (LevelManager::get()->is_walkable(x, _target_y))
+			{
+				set_rotation(90.0f);
+				_target_x = x;
+				_is_moving = true;
+				_dir = Direction::RIGHT;
+			}
+		}
+	}
 }
 
 void Player::handle_events(sf::Event& e)
 {
-    if (_is_moving)
-    {
-        return;
-    }
-
-    switch (e.type)
-    {
-    case sf::Event::KeyPressed:
-    {
-        if (e.key.code == sf::Keyboard::Up)
-        {
-            int y = _target_y - 1;
-            if (LevelManager::get()->is_walkable(_target_x, y))
-            {
-                _target_y = y;
-                set_rotation(0.0f);
-                _is_moving = true;
-                _dir = Direction::UP;
-            }
-        }
-        else if (e.key.code == sf::Keyboard::Down)
-        {
-            int y = _target_y + 1;
-            if (LevelManager::get()->is_walkable(_target_x, y))
-            {
-                set_rotation(180.0f);
-                _target_y = y;
-                _is_moving = true;
-                _dir = Direction::DOWN;
-            }
-        }
-        else if (e.key.code == sf::Keyboard::Left)
-        {
-            int x = _target_x - 1;
-            if (LevelManager::get()->is_walkable(x, _target_y))
-            {
-                set_rotation(270.0f);
-                _target_x = x;
-                _is_moving = true;
-                _dir = Direction::LEFT;
-            }
-        }
-        else if (e.key.code == sf::Keyboard::Right)
-        {
-            int x = _target_x + 1;
-            if (LevelManager::get()->is_walkable(x, _target_y))
-            {
-                set_rotation(90.0f);
-                _target_x = x;
-                _is_moving = true;
-                _dir = Direction::RIGHT;
-            }
-        }
-
-        break;
-    }
-    default:
-        break;
-    }
+    // moved movement code to update instead
 }
