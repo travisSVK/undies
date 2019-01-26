@@ -17,11 +17,14 @@ void RenderManager::render()
     // Render main window.
     for (auto sprite_component : _sprite_components)
     {
-        sprite_component->_sprite.setPosition(sprite_component->get_entity()->get_position());
-        sprite_component->_sprite.setRotation(sprite_component->get_entity()->get_rotation());
-        sprite_component->_sprite.setScale(sprite_component->get_entity()->get_scale());
-        sprite_component->_sprite.setOrigin(sprite_component->get_entity()->get_origin());
-        _main_window->draw(sprite_component->_sprite);
+        if (sprite_component->get_entity()->is_enabled())
+        {
+            sprite_component->_sprite.setPosition(sprite_component->get_entity()->get_position());
+            sprite_component->_sprite.setRotation(sprite_component->get_entity()->get_rotation());
+            sprite_component->_sprite.setScale(sprite_component->get_entity()->get_scale());
+            sprite_component->_sprite.setOrigin(sprite_component->get_entity()->get_origin());
+            _main_window->draw(sprite_component->_sprite);
+        }
     }
     for (auto fov_component : _fov_components)
     {

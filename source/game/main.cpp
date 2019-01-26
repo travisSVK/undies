@@ -5,6 +5,7 @@
 #include "standing_strategy.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
+#include "game.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -20,25 +21,13 @@ int main(int argc, char* argv)
 
     render_manager->start_up(&win);
     level_manager->start_up();
-    level_manager->load_level("data/level_test.txt");
+    
+    Game* game = new Game();
 
-    Player* player = new Player(2, 13);
-    entity_manager->register_entity(player);
-    SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
-    sound_manager->play_sound("mainsound");
+    entity_manager->register_entity(game);
 
     sf::Clock clock;
     float delta_time = 0.0f;
-
-    Enemy* enemy = new Enemy();
-    StandingStrategy* str = new StandingStrategy();
-    entity_manager->register_entity(enemy);
-
-    enemy->attach_player_entity(player);
-    enemy->set_move_direction(Enemy::Direction::UP);
-    enemy->set_fov(90.0f);
-    enemy->set_movement_strategy(str);
-    enemy->set_position(16 * 32, 16 * 32);
 
     while (win.isOpen())
     {
