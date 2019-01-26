@@ -9,18 +9,19 @@
 
 int main(int argc, char* argv)
 {
-    sf::RenderWindow win(sf::VideoMode(32 * 32, 32 * 32), "Undies");
 
     SoundManager* sound_manager = SoundManager::get();
     EntityManager* entity_manager = EntityManager::get();
     RenderManager* render_manager = RenderManager::get(); // = RenderManager::get();
     LevelManager* level_manager = LevelManager::get();
 
+    sf::RenderWindow win(sf::VideoMode(level_manager->MAX_X * 32, level_manager->MAX_Y * 32), "Undies");
+
     render_manager->start_up(&win);
     level_manager->start_up();
-    level_manager->load_level("data/level_01.txt");
+    level_manager->load_level("data/level_test.txt");
 
-    Entity* player = new Player();
+    Entity* player = new Player(2, 13);
     entity_manager->register_entity(player);
     SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
     sound_manager->play_sound("mainsound");

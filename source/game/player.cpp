@@ -2,6 +2,21 @@
 #include "managers/render_manager.hpp"
 #include "managers/level_manager.hpp"
 
+Player::Player(int target_x, int target_y)
+	: Entity()
+{
+	set_grid_position(target_x, target_y);
+}
+
+void Player::set_grid_position(int target_x, int target_y)
+{
+	_target_x = target_x;
+	_target_y = target_y;
+	float scaling = LevelManager::get()->tile_scaling();
+	set_position(_target_x*scaling, _target_y*scaling);
+}
+
+
 void Player::start()
 {
     // add sprite component.

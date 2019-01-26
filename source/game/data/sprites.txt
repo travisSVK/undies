@@ -1,3 +1,4 @@
-0 data/graphics/Floor1.png 1
+0 data/graphics/Wall.png 0
+1 data/graphics/Floor1.png 1
 2 data/graphics/Floor2.png 1
-1 data/graphics/Wall.png 0
+3 data/graphics/Wall.png 0
