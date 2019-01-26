@@ -21,6 +21,7 @@ void Game::start()
     SoundManager::get()->load_sound_component(this, "data/music/main_theme.wav", "main_theme");
     SoundManager::get()->load_sound_component(this, "data/music/menu.wav", "menu");
     SoundManager::get()->load_sound_component(this, "data/music/pick_up.wav", "menu_option");
+    SoundManager::get()->load_sound_component(this, "data/music/caught.wav", "caught");
 
     SoundManager::get()->play_sound("menu", true);
 
@@ -275,8 +276,9 @@ void Game::game_to_game_over()
     _left_down = true;
     _right_down = false;
     _game_state = GameState::GAME_OVER;
-    SoundManager::get()->play_sound("menu");
     SoundManager::get()->stop_sound("main_theme");
+    SoundManager::get()->stop_sound("caught");
+    SoundManager::get()->play_sound("caught");
 }
 
 void Game::game_over(float delta_time)
@@ -336,12 +338,16 @@ void Game::game_over(sf::Event& e)
 {
     if (e.type == sf::Event::KeyPressed)
     {
-        if (e.key.code == sf::Keyboard::Left)
+        if (e.key.code == sf::Keyboard::Left && _end_selected)
         {
+            SoundManager::get()->stop_sound("menu_option");
+            SoundManager::get()->play_sound("menu_option");
             _end_selected = false;
         }
-        else if (e.key.code == sf::Keyboard::Right)
+        else if (e.key.code == sf::Keyboard::Right && !_end_selected)
         {
+            SoundManager::get()->stop_sound("menu_option");
+            SoundManager::get()->play_sound("menu_option");
             _end_selected = true;
         }
         else if (e.key.code == sf::Keyboard::Enter)
