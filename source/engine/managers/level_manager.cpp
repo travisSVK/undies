@@ -11,13 +11,12 @@ LevelManager* LevelManager::get()
 
 void LevelManager::start_up()
 {
-    _tile_prototype.resize(9);
     std::ifstream file("data/sprites.txt");
 
     std::string line;
     while (std::getline(file, line))
     {
-        int index;
+        char index;
         std::string filepath;
         int walkable;
         std::stringstream iss(line);
@@ -33,7 +32,7 @@ void LevelManager::start_up()
         for (int y = 0; y < MAX_Y; ++y)
         {
             _level_tiles[x][y].sprite.setPosition(sf::Vector2f(x * tile_scaling(), y * tile_scaling()));
-            _level_tiles[x][y].sprite.setTexture(_tile_prototype[0].texture);
+            _level_tiles[x][y].sprite.setTexture(_tile_prototype.begin()->second.texture);
         }
     }
 }
@@ -73,7 +72,7 @@ void LevelManager::load_level(const std::string& filename)
         std::stringstream iss(line);
         for (int x = 0; x < MAX_X; ++x)
         {
-            int index;
+            char index;
             iss >> index;
             _level_tiles[x][y].sprite.setTexture(_tile_prototype[index].texture);
             _level_tiles[x][y].walkable = _tile_prototype[index].walkable;
