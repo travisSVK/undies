@@ -30,17 +30,6 @@ int main(int argc, char* argv)
     sf::Clock clock;
     float delta_time = 0.0f;
 
-
-    // Enemy* enemy = new Enemy(12, 12, 100.0f);
-    // entity_manager->register_entity(enemy);
-
-    // nemy->attach_player_entity(player);
-    // enemy->set_move_direction(Enemy::Direction::UP);
-    // BackAndForthStrategy* str = new BackAndForthStrategy();
-    // enemy->set_movement_strategy(str);
-    // SatCollisionDetection* sat = new SatCollisionDetection();
-    // enemy->set_collision_strategy(sat);
-
     while (win.isOpen())
     {
         entity_manager->handle_events(win);
@@ -52,13 +41,6 @@ int main(int argc, char* argv)
 
         // Render all objects.
         render_manager->render();
-
-        // TEST collision
-        bool collision = enemy->check_player_detection();
-        if (collision)
-        {
-            break;
-        }
 
         win.display();
 

@@ -15,6 +15,8 @@ public:
 
     void register_entity(Entity* entity);
 
+    void deregister_entity(Entity* entity);
+
     void update(float delta_time);
 
     void handle_events(sf::RenderWindow& win);

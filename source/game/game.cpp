@@ -30,7 +30,6 @@ void Game::start()
     _left_scale = 3.5f;
     _right_scale = 3.0f;
 
-
     _background = new Entity();
     RenderManager::get()->load_sprite_component(_background, "data/graphics/Background.png");
     _background->set_origin(16.0f, 16.0f);
@@ -61,8 +60,14 @@ void Game::update(float delta_time)
     case Game::GameState::GAME:
         game(delta_time);
         break;
-    case Game::GameState::GAME_TO_MENU:
-        game_to_menu();
+    case Game::GameState::GAME_TO_GAME_OVER:
+        game_to_game_over();
+        break;
+    case Game::GameState::GAME_OVER:
+        game_to_game_over();
+        break;
+    case Game::GameState::GAME_OVER_TO_MENU:
+        game_to_game_over();
         break;
     default:
         break;
@@ -81,7 +86,12 @@ void Game::handle_events(sf::Event& e)
     case Game::GameState::GAME:
         game(e);
         break;
-    case Game::GameState::GAME_TO_MENU:
+    case Game::GameState::GAME_TO_GAME_OVER:
+        game_to_game_over();
+        break;
+    case Game::GameState::GAME_OVER:
+        break;
+    case Game::GameState::GAME_OVER_TO_MENU:
         break;
     default:
         break;
@@ -185,34 +195,37 @@ void Game::menu_to_game()
 
     _background->set_enabled(false);
 
-    Enemy* enemy = new Enemy();
-    StandingStrategy* str = new StandingStrategy();
-    entity_manager->register_entity(enemy);
+    _enemy = new Enemy(12, 12, 128.0f);
+    EntityManager::get()->register_entity(_enemy);
     
-    enemy->attach_player_entity(_player);
-    enemy->set_move_direction(Enemy::Direction::UP);
-    enemy->set_fov(90.0f);
-    enemy->set_movement_strategy(str);
-    enemy->set_position(16 * 32, 16 * 32);
-    
-    level_manager->load_level("data/level_test.txt");
+    _enemy->attach_player_entity(_player);
+    _enemy->set_move_direction(Enemy::Direction::UP);
 
+    BackAndForthStrategy* str = new BackAndForthStrategy();
+    _enemy->set_movement_strategy(str);
+    
+    SatCollisionDetection* sat = new SatCollisionDetection();
+    _enemy->set_collision_strategy(sat);
+
+    level_manager->load_level("data/level_test.txt");
 
     _game_state = GameState::GAME;
 }
 
 void Game::game(float delta_time)
 {
+    bool collision = _enemy->check_player_detection();
+    if (collision)
+    {
+        _game_state = GameState::GAME_TO_GAME_OVER;
+    }
 }
 
 void Game::game(sf::Event & e)
 {
 }
 
-void Game::game_to_menu()
+void Game::game_to_game_over()
 {
-    _left_player->set_enabled(false);
-    _right_player->set_enabled(false);
-
     _game_state = GameState::MENU;
 }

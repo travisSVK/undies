@@ -13,6 +13,18 @@ void EntityManager::register_entity(Entity* entity)
     entity->start();
 }
 
+void EntityManager::deregister_entity(Entity* entity)
+{
+    for (int i = 0; i < _entities.size(); ++i)
+    {
+        if (entity == _entities[i])
+        {
+            _entities.erase(_entities.begin() + i);
+            return;
+        }
+    }
+}
+
 void EntityManager::update(float delta_time)
 {
     for (int i = 0; i < _entities.size(); ++i)

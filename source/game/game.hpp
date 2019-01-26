@@ -3,6 +3,8 @@
 #include "entity.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
+#include "back_and_forth_strategy.hpp"
+#include "sat_collision_detection.hpp"
 #include "standing_strategy.hpp"
 #include "managers/render_manager.hpp"
 #include "managers/entity_manager.hpp"
@@ -18,7 +20,9 @@ private:
         MENU,
         MENU_TO_GAME,
         GAME,
-        GAME_TO_MENU
+        GAME_TO_GAME_OVER,
+        GAME_OVER,
+        GAME_OVER_TO_MENU
     };
 
 public:
@@ -47,7 +51,7 @@ private:
 
     void game(sf::Event& e);
 
-    void game_to_menu();
+    void game_to_game_over();
 
 private:
 
@@ -58,6 +62,7 @@ private:
     Entity* _left_player;
     Entity* _right_player;
     Entity* _background;
+    Enemy* _enemy;
 
     bool _left_selected;
     bool _left_down;
