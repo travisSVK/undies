@@ -17,12 +17,14 @@ public:
     {
         sf::Sprite sprite;
         bool walkable = true;
+        bool final_state = false;
     };
 
     struct TilePrototype
     {
         sf::Texture texture;
         bool walkable = true;
+        bool final_state = false;
     };
 
 public:
@@ -34,6 +36,7 @@ public:
     void shut_down();
 
     bool is_walkable(int x, int y);
+    bool is_final(int x, int y);
 
     float tile_scaling();
 

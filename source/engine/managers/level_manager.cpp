@@ -19,11 +19,13 @@ void LevelManager::start_up()
         char index;
         std::string filepath;
         int walkable;
+        int final_state;
         std::stringstream iss(line);
 
-        iss >> index >> filepath >> walkable;
+        iss >> index >> filepath >> walkable >> final_state;
 
         _tile_prototype[index].walkable = static_cast<bool>(walkable);
+        _tile_prototype[index].final_state = static_cast<bool>(final_state);
         _tile_prototype[index].texture.loadFromFile(filepath);
     }
 
@@ -39,6 +41,21 @@ void LevelManager::start_up()
 
 void LevelManager::shut_down()
 {
+}
+
+bool LevelManager::is_final(int x, int y)
+{
+    if (x >= MAX_X || x < 0)
+    {
+        return false;
+    }
+
+    if (y >= MAX_Y || y < 0)
+    {
+        return false;
+    }
+
+    return _level_tiles[x][y].final_state;
 }
 
 bool LevelManager::is_walkable(int x, int y)
@@ -76,6 +93,7 @@ void LevelManager::load_level(const std::string& filename)
             iss >> index;
             _level_tiles[x][y].sprite.setTexture(_tile_prototype[index].texture);
             _level_tiles[x][y].walkable = _tile_prototype[index].walkable;
+            _level_tiles[x][y].final_state = _tile_prototype[index].final_state;
         }
     }
 

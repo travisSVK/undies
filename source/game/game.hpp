@@ -23,6 +23,7 @@ private:
         GAME_TO_GAME_OVER,
         GAME_OVER,
         GAME_OVER_TO_MENU,
+        LEVEL_FINISHED_TO_MENU,
         EXIT
     };
 
@@ -72,6 +73,7 @@ private:
     Entity* _background;
     Entity* _logo;
     std::vector<Enemy*> _enemies;
+    sf::Vector2f _final_state;
 
     bool _is_finished;
     bool _left_selected;
