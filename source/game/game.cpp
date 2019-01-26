@@ -18,6 +18,12 @@ Game::~Game()
 
 void Game::start()
 {
+    SoundManager::get()->load_sound_component(this, "data/music/main_theme.wav", "main_theme");
+    SoundManager::get()->load_sound_component(this, "data/music/menu.wav", "menu");
+    SoundManager::get()->load_sound_component(this, "data/music/pick_up.wav", "menu_option");
+
+    SoundManager::get()->play_sound("menu");
+
     _game_state = GameState::MENU;
 
     _left_player = new Entity();
@@ -155,12 +161,16 @@ void Game::menu(sf::Event& e)
 {
     if (e.type == sf::Event::KeyPressed)
     {
-        if (e.key.code == sf::Keyboard::Left)
+        if (e.key.code == sf::Keyboard::Left && !_left_selected)
         {
+            SoundManager::get()->stop_sound("menu_option");
+            SoundManager::get()->play_sound("menu_option");
             _left_selected = true;
         }
-        else if (e.key.code == sf::Keyboard::Right)
+        else if (e.key.code == sf::Keyboard::Right && _left_selected)
         {
+            SoundManager::get()->stop_sound("menu_option");
+            SoundManager::get()->play_sound("menu_option");
             _left_selected = false;
         }
         else if (e.key.code == sf::Keyboard::Enter)
@@ -176,13 +186,14 @@ void Game::menu_to_game()
     SoundManager* sound_manager = SoundManager::get();
     LevelManager* level_manager = LevelManager::get();
 
+    SoundManager::get()->stop_sound("menu");
+    SoundManager::get()->play_sound("main_theme");
+
     _left_player->set_enabled(false);
     _right_player->set_enabled(false);
 
     _player = new Player(2, 13);
     entity_manager->register_entity(_player);
-    SoundComponent* sound_component = sound_manager->load_sound_component(_player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
-    sound_manager->play_sound("mainsound");
 
     if (_left_selected)
     {

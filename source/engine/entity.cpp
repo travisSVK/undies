@@ -11,6 +11,10 @@ Entity::Entity()
 
 Entity::~Entity()
 {
+    for (auto comp : _components)
+    {
+        delete comp;
+    }
 }
 
 void Entity::add_component(Component* component)

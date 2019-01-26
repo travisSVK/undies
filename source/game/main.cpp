@@ -38,8 +38,8 @@ int main(int argc, char* argv)
  // entity_manager->register_entity(item_test);
 	//sound_manager->load_sound_component(item_test, "data/sfx/pick_up.wav", "pick_up");
 
-	SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
-    sound_manager->play_sound("mainsound");
+	// SoundComponent* sound_component = sound_manager->load_sound_component(player, "data/Undies_main_theme_-_16-bit.wav", "mainsound");
+    //sound_manager->play_sound("mainsound");
 
     sf::Clock clock;
     float delta_time = 0.0f;

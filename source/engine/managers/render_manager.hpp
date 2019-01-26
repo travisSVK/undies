@@ -18,7 +18,12 @@ public:
     void render();
 
     SpriteComponent *load_sprite_component(Entity *_entity, const std::string &_sprite_file);
+    
     FovComponent *load_fov_component(Entity *_entity);
+
+    void deregister_fov_component(FovComponent* fov);
+
+    void deregister_sprite_component(SpriteComponent* sprite);
 
     void start_up(sf::RenderWindow* win);
 
@@ -31,6 +36,6 @@ private:
     RenderManager(RenderManager const&) = delete;
     void operator=(RenderManager const&) = delete;
     sf::RenderWindow *_main_window;
-    std::vector<SpriteComponent *> _sprite_components;
-    std::vector<FovComponent *> _fov_components;
+    std::vector<SpriteComponent*> _sprite_components;
+    std::vector<FovComponent*> _fov_components;
 };

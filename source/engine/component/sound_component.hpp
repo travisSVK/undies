@@ -15,6 +15,7 @@ public:
 
 private:
     SoundComponent() = default;
+    ~SoundComponent();
     SoundComponent(SoundComponent const&) = delete;
     void operator=(SoundComponent const&) = delete;
 

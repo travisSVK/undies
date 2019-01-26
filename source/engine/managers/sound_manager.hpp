@@ -15,8 +15,11 @@ public:
 
     SoundComponent *load_sound_component(Entity *_entity, const std::string &_sound_file, const std::string &_sound_type);
     void play_sound(const std::string &_sound_type);
+    void stop_sound(const std::string& sound_type);
     void start_up();
     void shut_down();
+
+    void deregister_sound_component(SoundComponent* sound);
 
 private:
     SoundManager() = default;
