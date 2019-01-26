@@ -83,14 +83,6 @@ void RenderManager::start_up(sf::RenderWindow* win)
 
 void RenderManager::shut_down()
 {
-    for (auto sprite_component : _sprite_components)
-    {
-        delete sprite_component;
-    }
-    for (auto fov_component : _fov_components)
-    {
-        delete fov_component;
-    }
     _fov_components.clear();
     _sprite_components.clear();
 }

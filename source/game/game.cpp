@@ -22,7 +22,7 @@ void Game::start()
     SoundManager::get()->load_sound_component(this, "data/music/menu.wav", "menu");
     SoundManager::get()->load_sound_component(this, "data/music/pick_up.wav", "menu_option");
 
-    SoundManager::get()->play_sound("menu");
+    SoundManager::get()->play_sound("menu", true);
 
     _game_state = GameState::MENU;
 
@@ -52,6 +52,12 @@ void Game::start()
     _left_player->set_origin(16.0f, 16.0f);
     _left_player->set_scale(_left_scale, _left_scale);
     _left_player->set_position((LevelManager::get()->MAX_X / 4) * 32, (LevelManager::get()->MAX_Y - 4) * 32);
+
+    _logo = new Entity();
+    RenderManager::get()->load_sprite_component(_logo, "data/graphics/logo.png");
+    _logo->set_scale(1.2f, 1.2f);
+    _logo->set_origin(256 / 2, 256 / 2);
+    _logo->set_position((LevelManager::get()->MAX_X * 32) / 2, 100.0f);
 
     RenderManager::get()->load_sprite_component(_right_player, "data/graphics/Sister1.png");
     _right_player->set_origin(16.0f, 16.0f);
@@ -193,10 +199,11 @@ void Game::menu_to_game()
     LevelManager* level_manager = LevelManager::get();
 
     SoundManager::get()->stop_sound("menu");
-    SoundManager::get()->play_sound("main_theme");
+    SoundManager::get()->play_sound("main_theme", true);
 
     _left_player->set_enabled(false);
     _right_player->set_enabled(false);
+    _logo->set_enabled(false);
 
     _player = new Player(2, 13);
     entity_manager->register_entity(_player);

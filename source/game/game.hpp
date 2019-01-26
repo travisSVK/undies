@@ -71,11 +71,11 @@ private:
     Entity* _left_player;
     Entity* _right_player;
     Entity* _background;
+    Entity* _logo;
     std::vector<Enemy*> _enemies;
     sf::Vector2f _final_state;
 
     bool _is_finished;
-
     bool _left_selected;
     bool _left_down;
     bool _right_down;

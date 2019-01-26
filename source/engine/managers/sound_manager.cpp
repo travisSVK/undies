@@ -25,12 +25,13 @@ void SoundManager::start_up()
     // TODO
 }
 
-void SoundManager::play_sound(const std::string &_sound_type)
+void SoundManager::play_sound(const std::string& _sound_type, bool repeat)
 {
     _sound_components[_sound_type]->_music.play();
+    _sound_components[_sound_type]->_music.setLoop(repeat);
 }
 
-void SoundManager::stop_sound(const std::string & sound_type)
+void SoundManager::stop_sound(const std::string& sound_type)
 {
     _sound_components[sound_type]->_music.stop();
 }
