@@ -5,6 +5,7 @@ Entity::Entity()
     , _rotation(0.0f)
     , _scale(1.0f, 1.0f)
     , _enabled(true)
+    , _origin(0.0f, 0.0f)
 {
 }
 

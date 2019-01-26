@@ -12,7 +12,7 @@ class ENGINE_API SpriteComponent : public Component
 public:
 
     void set_sprite(const std::string &_sprite_path);
-    sf::Vector2f get_sprite_scale() const;
+    
 
 private:
 

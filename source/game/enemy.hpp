@@ -4,6 +4,7 @@
 
 class Player;
 class IMovementStrategy;
+class ICollisionDetection;
 
 class Enemy : public Entity
 {
@@ -18,11 +19,14 @@ public:
     };
 
 public:
+    Enemy(int target_x, int target_y, float move_speed);
+
+    void set_grid_position(int target_x, int target_y);
     void attach_player_entity(Player *player);
-    void set_fov(float fov);
     void set_move_direction(Direction move_dir);
     void set_movement_strategy(IMovementStrategy *movement_strategy);
-    void check_player_detection() const;
+    void set_collision_strategy(ICollisionDetection *collision_detection);
+    bool check_player_detection() const;
 protected:
 
     void start() override;
@@ -30,17 +34,18 @@ protected:
     void update(float delta_time) override;
 
 private:
-    void update_movement(float move_speed);
+    void update_movement();
     void update_fov();
 
 private:
 
     Direction _move_dir;
     Player *_player;
-    float _fov_angle;
     IMovementStrategy *_movement_strategy;
+    ICollisionDetection *_collision_detection;
     int _target_x;
     int _target_y;
+    float _move_speed;
     sf::Vector2f _fov_vector_u;
     sf::Vector2f _fov_vector_v;
     sf::ConvexShape _fov_shape;
