@@ -227,6 +227,42 @@ void Game::menu_to_game()
     }
     _background->set_enabled(false);
 
+    switch (_level_num)
+    {
+    case 1:
+        load_level_01();
+        break;
+    case 2:
+        load_level_02();
+        break;
+    case 3:
+        load_level_03();
+        break;
+    case 4:
+        load_level_04();
+        break;
+    case 5:
+        load_level_05();
+        break;
+    case 6:
+        load_level_06();
+        break;
+    case 7:
+        load_level_07();
+        break;
+    case 8:
+        load_level_08();
+        break;
+    case 9:
+        load_level_09();
+        break;
+    case 10:
+        load_level_10();
+        break;
+    default:
+        break;
+    }
+
     load_level_01();
 
     _game_state = GameState::GAME;
@@ -369,8 +405,10 @@ void Game::menu_to_new_level(sf::Event& e)
             }
             else
             {
-                SoundManager::get()->stop_sound("caught");
+                SoundManager::get()->stop_sound("level_complete");
+                deload_level();
                 ++_level_num;
+
                 _game_state = GameState::MENU_TO_GAME;
             }
         }
@@ -502,14 +540,17 @@ void Game::load_level_01()
 
 void Game::load_level_02()
 {
+    LevelManager::get()->load_level("data/level_02.txt");
 }
 
 void Game::load_level_03()
 {
+    LevelManager::get()->load_level("data/level_03.txt");
 }
 
 void Game::load_level_04()
 {
+    LevelManager::get()->load_level("data/level_04.txt");
 }
 
 void Game::load_level_05()
@@ -563,6 +604,31 @@ void Game::load_level_05()
     }
 
     LevelManager::get()->load_level("data/level_05.txt");
+}
+
+void Game::load_level_06()
+{
+    LevelManager::get()->load_level("data/level_06.txt");
+}
+
+void Game::load_level_07()
+{
+    LevelManager::get()->load_level("data/level_07.txt");
+}
+
+void Game::load_level_08()
+{
+    LevelManager::get()->load_level("data/level_08.txt");
+}
+
+void Game::load_level_09()
+{
+    LevelManager::get()->load_level("data/level_09.txt");
+}
+
+void Game::load_level_10()
+{
+    LevelManager::get()->load_level("data/level_10.txt");
 }
 
 bool Game::is_finished()
