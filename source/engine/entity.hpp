@@ -23,6 +23,9 @@ public:
     template <typename C>
     C* get_component();
 
+	template <typename C>
+	void remove_component();
+
     sf::Vector2f get_position() const;
 
     float get_rotation() const;
@@ -88,4 +91,19 @@ C* Entity::get_component()
         }
     }
     return nullptr;
+}
+
+template <typename C>
+void Entity::remove_component()
+{
+	for (int i = 0; i < _components.size(); ++i)
+	{
+		C* comp = dynamic_cast<C*>(_components[i]);
+		if (comp)
+		{
+			_components.erase(_components.begin() + i);
+			delete comp;
+			return;
+		}
+	}
 }

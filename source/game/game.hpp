@@ -10,6 +10,7 @@
 #include "managers/entity_manager.hpp"
 #include "managers/sound_manager.hpp"
 #include "managers/level_manager.hpp"
+#include "component/sprite_component.hpp"
 
 class Game : public Entity
 {

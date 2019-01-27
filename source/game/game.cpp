@@ -293,6 +293,29 @@ void Game::game(sf::Event & e)
 void Game::game_to_game_over()
 {
     deload_level();
+
+
+	RenderManager *render_manager = RenderManager::get();
+
+	//render_manager->deregister_sprite_component(_background->get_component<SpriteComponent>());
+	_background->remove_component<SpriteComponent>();
+	_left_player->remove_component<SpriteComponent>();
+	_right_player->remove_component<SpriteComponent>();
+	render_manager->load_sprite_component(_background, "data/graphics/retry.png");
+	_background->set_origin(256.0f, 256.0f);
+	_background->set_scale(1.0f, 1.0f);
+	_background->set_position((LevelManager::get()->MAX_X / 2) * 32, (LevelManager::get()->MAX_Y / 2) * 32);
+
+	render_manager->load_sprite_component(_left_player, "data/graphics/yes.png");
+	_left_player->set_origin(16.0f, 16.0f);
+	_left_player->set_scale(_left_scale, _left_scale);
+	_left_player->set_position((LevelManager::get()->MAX_X / 4) * 32, (LevelManager::get()->MAX_Y - 4) * 32);
+
+	render_manager->load_sprite_component(_right_player, "data/graphics/no.png");
+	_right_player->set_origin(16.0f, 16.0f);
+	_right_player->set_scale(_right_scale, _right_scale);
+	_right_player->set_position((LevelManager::get()->MAX_X / 4) * 3 * 32, (LevelManager::get()->MAX_Y - 4) * 32);
+
     _left_player->set_enabled(true);
     _right_player->set_enabled(true);
     _background->set_enabled(true);
@@ -306,6 +329,63 @@ void Game::game_to_game_over()
 void Game::level_finished_to_menu()
 {
     deload_level();
+
+
+	RenderManager *render_manager = RenderManager::get();
+
+	//render_manager->deregister_sprite_component(_background->get_component<SpriteComponent>());
+	//delete the spirtes to replace texture
+	_background->remove_component<SpriteComponent>();
+	_left_player->remove_component<SpriteComponent>();
+	_right_player->remove_component<SpriteComponent>();
+
+	switch (_level_num)
+	{
+	case 1:
+		render_manager->load_sprite_component(_background, "data/graphics/stage2.png");
+		break;
+	case 2:
+		render_manager->load_sprite_component(_background, "data/graphics/stage3.png");
+		break;
+	case 3:
+		render_manager->load_sprite_component(_background, "data/graphics/stage4.png");
+		break;
+	case 4:
+		render_manager->load_sprite_component(_background, "data/graphics/stage5.png");
+		break;
+	case 5:
+		render_manager->load_sprite_component(_background, "data/graphics/stage6.png");
+		break;
+	case 6:
+		render_manager->load_sprite_component(_background, "data/graphics/stage7.png");
+		break;
+	case 7:
+		render_manager->load_sprite_component(_background, "data/graphics/stage8.png");
+		break;
+	case 8:
+		render_manager->load_sprite_component(_background, "data/graphics/stage9.png");
+		break;
+	case 9:
+		render_manager->load_sprite_component(_background, "data/graphics/stage10.png");
+		break;
+	default:
+		break;
+	}
+	_background->set_origin(512.0f, 512.0f);
+	_background->set_scale(1.0f, 0.6f);
+	_background->set_position((LevelManager::get()->MAX_X / 2) * 32, (LevelManager::get()->MAX_Y / 2) * 32 - 64);
+
+
+	render_manager->load_sprite_component(_left_player, "data/graphics/letsgo.png");
+	_left_player->set_origin(16.0f, 16.0f);
+	_left_player->set_scale(_left_scale, _left_scale);
+	_left_player->set_position((LevelManager::get()->MAX_X / 4) * 32, (LevelManager::get()->MAX_Y - 4) * 32);
+
+	render_manager->load_sprite_component(_right_player, "data/graphics/giveup.png");
+	_right_player->set_origin(16.0f, 16.0f);
+	_right_player->set_scale(_right_scale, _right_scale);
+	_right_player->set_position((LevelManager::get()->MAX_X / 4) * 3 * 32, (LevelManager::get()->MAX_Y - 4) * 32);
+
     _left_player->set_enabled(true);
     _right_player->set_enabled(true);
     _background->set_enabled(true);
