@@ -373,6 +373,9 @@ void Game::level_finished_to_menu()
 	case 9:
 		render_manager->load_sprite_component(_background, "data/graphics/stage10.png");
 		break;
+	case 10:
+		render_manager->load_sprite_component(_background, "data/graphics/win.png");
+		break;
 	default:
 		break;
 	}
@@ -381,12 +384,28 @@ void Game::level_finished_to_menu()
 	_background->set_position((LevelManager::get()->MAX_X / 2) * 32, (LevelManager::get()->MAX_Y / 2) * 32 - 64);
 
 
-	render_manager->load_sprite_component(_left_player, "data/graphics/letsgo.png");
+	if (_level_num == 10)
+	{
+		render_manager->load_sprite_component(_left_player, "data/graphics/hooray.png");
+	}
+	else
+	{
+		render_manager->load_sprite_component(_left_player, "data/graphics/letsgo.png");
+	}
 	_left_player->set_origin(16.0f, 16.0f);
 	_left_player->set_scale(_left_scale, _left_scale);
 	_left_player->set_position((LevelManager::get()->MAX_X / 4) * 32, (LevelManager::get()->MAX_Y - 4) * 32);
 
-	render_manager->load_sprite_component(_right_player, "data/graphics/giveup.png");
+
+
+	if (_level_num == 10)
+	{
+		render_manager->load_sprite_component(_right_player, "data/graphics/pants.png");
+	}
+	else
+	{
+		render_manager->load_sprite_component(_right_player, "data/graphics/giveup.png");
+	}
 	_right_player->set_origin(16.0f, 16.0f);
 	_right_player->set_scale(_right_scale, _right_scale);
 	_right_player->set_position((LevelManager::get()->MAX_X / 4) * 3 * 32, (LevelManager::get()->MAX_Y - 4) * 32);
