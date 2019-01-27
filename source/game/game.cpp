@@ -41,7 +41,7 @@ void Game::start()
 
     _left_scale = 3.5f;
     _right_scale = 3.0f;
-    _level_num = 0;
+    _level_num = 1;
 
     //_final_state.x = 
 
@@ -197,6 +197,17 @@ void Game::menu(sf::Event& e)
         else if (e.key.code == sf::Keyboard::Enter)
         {
             _game_state = GameState::MENU_TO_GAME;
+            SoundManager::get()->stop_sound("menu");
+            _player = new Player(2, 13);
+            EntityManager::get()->register_entity(_player);
+            if (_left_selected)
+            {
+                RenderManager::get()->load_sprite_component(_player, "data/graphics/Brother1.png");
+            }
+            else
+            {
+                RenderManager::get()->load_sprite_component(_player, "data/graphics/Sister1.png");
+            }
         }
     }
 }
@@ -207,25 +218,12 @@ void Game::menu_to_game()
     SoundManager* sound_manager = SoundManager::get();
     LevelManager* level_manager = LevelManager::get();
 
-    SoundManager::get()->stop_sound("menu");
     SoundManager::get()->play_sound("main_theme", true);
-
     _left_player->set_enabled(false);
     _right_player->set_enabled(false);
     _logo->set_enabled(false);
-
-    _player = new Player(2, 13);
-    entity_manager->register_entity(_player);
-
-    if (_left_selected)
-    {
-        RenderManager::get()->load_sprite_component(_player, "data/graphics/Brother1.png");
-    }
-    else
-    {
-        RenderManager::get()->load_sprite_component(_player, "data/graphics/Sister1.png");
-    }
     _background->set_enabled(false);
+    _player->set_enabled(true);
 
     switch (_level_num)
     {
@@ -263,7 +261,7 @@ void Game::menu_to_game()
         break;
     }
 
-    load_level_01();
+    //load_level_01();
 
     _game_state = GameState::GAME;
 }
@@ -276,12 +274,14 @@ void Game::game(float delta_time)
         if (collision)
         {
             _game_state = GameState::GAME_TO_GAME_OVER;
+            _player->set_enabled(false);
         }
     }
 
     float scaling = LevelManager::get()->tile_scaling();
     if (LevelManager::get()->is_final((_player->get_position().x - 16) / scaling, (_player->get_position().y - 16) / scaling))
     {
+        _player->set_enabled(false);
         _game_state = GameState::LEVEL_FINISHED_TO_MENU;
     }
 }
@@ -290,21 +290,9 @@ void Game::game(sf::Event & e)
 {
 }
 
-void Game::clean_level()
-{
-    for (auto enemy : _enemies)
-    {
-        EntityManager::get()->deregister_entity(enemy);
-        delete enemy;
-    }
-    _enemies.clear();
-    EntityManager::get()->deregister_entity(_player);
-    delete _player;
-}
-
 void Game::game_to_game_over()
 {
-    clean_level();
+    deload_level();
     _left_player->set_enabled(true);
     _right_player->set_enabled(true);
     _background->set_enabled(true);
@@ -317,7 +305,7 @@ void Game::game_to_game_over()
 
 void Game::level_finished_to_menu()
 {
-    clean_level();
+    deload_level();
     _left_player->set_enabled(true);
     _right_player->set_enabled(true);
     _background->set_enabled(true);
@@ -504,9 +492,11 @@ void Game::exit()
     EntityManager::get()->deregister_entity(_left_player);
     EntityManager::get()->deregister_entity(_right_player);
     EntityManager::get()->deregister_entity(_background);
+    EntityManager::get()->deregister_entity(_player);
     delete _left_player;
     delete _right_player;
     delete _background;
+    delete _player;
 
     _is_finished = true;
 }
@@ -515,6 +505,7 @@ void Game::deload_level()
 {
     for (auto e : _enemies)
     {
+        EntityManager::get()->deregister_entity(e);
         delete e;
     }
 
@@ -523,6 +514,7 @@ void Game::deload_level()
 
 void Game::load_level_01()
 {
+    _player->set_grid_position(2, 13);
     {
         Enemy *enemy = new Enemy(12, 8, 128.0f);
         EntityManager::get()->register_entity(enemy);
@@ -540,21 +532,36 @@ void Game::load_level_01()
 
 void Game::load_level_02()
 {
+    _player->set_grid_position(2, 13);
+    {
+        Enemy *enemy = new Enemy(12, 8, 128.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::RIGHT);
+        BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
     LevelManager::get()->load_level("data/level_02.txt");
 }
 
 void Game::load_level_03()
 {
+    _player->set_grid_position(2, 13);
     LevelManager::get()->load_level("data/level_03.txt");
 }
 
 void Game::load_level_04()
 {
+    _player->set_grid_position(2, 13);
     LevelManager::get()->load_level("data/level_04.txt");
 }
 
 void Game::load_level_05()
 {
+    _player->set_grid_position(2, 13);
     {
         Enemy *enemy = new Enemy(8, 12, 128.0f);
         EntityManager::get()->register_entity(enemy);

@@ -92,8 +92,6 @@ private:
 
     void load_level_10();
 
-    void clean_level();
-
 private:
 
     GameState _game_state;
