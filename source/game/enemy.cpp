@@ -47,6 +47,7 @@ void Enemy::update(float delta_time)
     {
     case Direction::UP:
     {
+        set_rotation(0.0f);
         move(0.0f, -_move_speed * delta_time);
         if (get_position().y < (_target_y * scaling + 16))
         {
@@ -57,6 +58,7 @@ void Enemy::update(float delta_time)
     }
     case Direction::DOWN:
     {
+        set_rotation(180.0f);
         move(0.0f, _move_speed * delta_time);
         if (get_position().y > (_target_y * scaling + 16))
         {
@@ -67,6 +69,7 @@ void Enemy::update(float delta_time)
     }
     case Direction::LEFT:
     {
+        set_rotation(270.0f);
         move(-_move_speed * delta_time, 0.0f);
         if (get_position().x < _target_x * scaling + 16)
         {
@@ -77,6 +80,7 @@ void Enemy::update(float delta_time)
     }
     case Direction::RIGHT:
     {
+        set_rotation(90.0f);
         move(_move_speed * delta_time, 0.0f);
         if (get_position().x > _target_x * scaling + 16)
         {
