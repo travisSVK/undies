@@ -21,3 +21,7 @@ j data/graphics/walls/UndiesWallTiles-3.png 0 0
 k data/graphics/walls/UndiesWallTiles-4.png 0 0
 l data/graphics/walls/UndiesWallTiles-5.png 0 0
 a data/graphics/endstate.png 1 1
+b data/graphics/Car1.png 0 0
+g data/graphics/Car2.png 0 0
+i data/graphics/Kitchen2.png 0 0
+y data/graphics/walls/UndiesWallTiles-35.png 0 0
