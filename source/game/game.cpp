@@ -350,6 +350,9 @@ void Game::level_finished_to_menu()
 
 	switch (_level_num)
 	{
+	case MAX_LEVEL:
+		render_manager->load_sprite_component(_background, "data/graphics/win.png");
+		break;
 	case 0:
 		_logo->set_enabled(false);
 		render_manager->load_sprite_component(_background, "data/graphics/stage1.png");
@@ -366,10 +369,7 @@ void Game::level_finished_to_menu()
 	case 4:
 		render_manager->load_sprite_component(_background, "data/graphics/stage5.png");
 		break;
-	case 5:
-		render_manager->load_sprite_component(_background, "data/graphics/stage6.png");
-		break;
-	case 6:
+	/*case 6:
 		render_manager->load_sprite_component(_background, "data/graphics/stage7.png");
 		break;
 	case 7:
@@ -383,7 +383,7 @@ void Game::level_finished_to_menu()
 		break;
 	case 10:
 		render_manager->load_sprite_component(_background, "data/graphics/win.png");
-		break;
+		break;//*/
 	default:
 		break;
 	}
@@ -392,13 +392,15 @@ void Game::level_finished_to_menu()
 	_background->set_position((LevelManager::get()->MAX_X / 2) * 32, (LevelManager::get()->MAX_Y / 2) * 32 - 64);
 
 
-	if (_level_num == 10)
+	if (_level_num == MAX_LEVEL)
 	{
 		render_manager->load_sprite_component(_left_player, "data/graphics/hooray.png");
+		render_manager->load_sprite_component(_right_player, "data/graphics/exitgame.png");
 	}
 	else
 	{
 		render_manager->load_sprite_component(_left_player, "data/graphics/letsgo.png");
+		render_manager->load_sprite_component(_right_player, "data/graphics/giveup.png");
 	}
 	_left_player->set_origin(16.0f, 16.0f);
 	_left_player->set_scale(_left_scale, _left_scale);
@@ -406,14 +408,6 @@ void Game::level_finished_to_menu()
 
 
 
-	if (_level_num == 10)
-	{
-		render_manager->load_sprite_component(_right_player, "data/graphics/pants.png");
-	}
-	else
-	{
-		render_manager->load_sprite_component(_right_player, "data/graphics/giveup.png");
-	}
 	_right_player->set_origin(16.0f, 16.0f);
 	_right_player->set_scale(_right_scale, _right_scale);
 	_right_player->set_position((LevelManager::get()->MAX_X / 4) * 3 * 32, (LevelManager::get()->MAX_Y - 4) * 32);
@@ -501,13 +495,17 @@ void Game::menu_to_new_level(sf::Event& e)
         {
             if (_end_selected)
             {
+
                 _game_state = GameState::EXIT;
             }
             else
             {
                 SoundManager::get()->stop_sound("level_complete");
                 deload_level();
-                ++_level_num;
+				if (++_level_num > MAX_LEVEL)
+				{
+					_level_num = 1;
+				}
 
                 _game_state = GameState::MENU_TO_GAME;
             }
@@ -639,7 +637,7 @@ void Game::load_level_01()
         _enemies.push_back(enemy);
     }
 
-    LevelManager::get()->load_level("data/level_02.txt");
+    LevelManager::get()->load_level("data/level_01.txt");
 }
 
 void Game::load_level_02()

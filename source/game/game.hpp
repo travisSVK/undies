@@ -26,6 +26,8 @@ private:
         EXIT
     };
 
+	const static int MAX_LEVEL = 5;
+
 public:
 
     Game();
