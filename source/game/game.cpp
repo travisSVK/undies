@@ -196,7 +196,7 @@ void Game::menu(sf::Event& e)
         }
         else if (e.key.code == sf::Keyboard::Enter)
         {
-            _game_state = GameState::MENU_TO_GAME;
+            _game_state = GameState::LEVEL_FINISHED_TO_MENU; //using this so it displays intro first
             SoundManager::get()->stop_sound("menu");
             _player = new Player(2, 13);
             EntityManager::get()->register_entity(_player);
@@ -208,6 +208,7 @@ void Game::menu(sf::Event& e)
             {
                 RenderManager::get()->load_sprite_component(_player, "data/graphics/Sister1.png");
             }
+			_player->set_enabled(false);
         }
     }
 }
@@ -306,12 +307,12 @@ void Game::game_to_game_over()
 	_background->set_scale(1.0f, 1.0f);
 	_background->set_position((LevelManager::get()->MAX_X / 2) * 32, (LevelManager::get()->MAX_Y / 2) * 32);
 
-	render_manager->load_sprite_component(_left_player, "data/graphics/yes.png");
+	render_manager->load_sprite_component(_left_player, "data/graphics/letsgo.png");
 	_left_player->set_origin(16.0f, 16.0f);
 	_left_player->set_scale(_left_scale, _left_scale);
 	_left_player->set_position((LevelManager::get()->MAX_X / 4) * 32, (LevelManager::get()->MAX_Y - 4) * 32);
 
-	render_manager->load_sprite_component(_right_player, "data/graphics/no.png");
+	render_manager->load_sprite_component(_right_player, "data/graphics/pants.png");
 	_right_player->set_origin(16.0f, 16.0f);
 	_right_player->set_scale(_right_scale, _right_scale);
 	_right_player->set_position((LevelManager::get()->MAX_X / 4) * 3 * 32, (LevelManager::get()->MAX_Y - 4) * 32);
@@ -334,13 +335,17 @@ void Game::level_finished_to_menu()
 	RenderManager *render_manager = RenderManager::get();
 
 	//render_manager->deregister_sprite_component(_background->get_component<SpriteComponent>());
-	//delete the spirtes to replace texture
+	// hacky delete the spirtes to replace texture
 	_background->remove_component<SpriteComponent>();
 	_left_player->remove_component<SpriteComponent>();
 	_right_player->remove_component<SpriteComponent>();
 
 	switch (_level_num)
 	{
+	case 0:
+		_logo->set_enabled(false);
+		render_manager->load_sprite_component(_background, "data/graphics/stage1.png");
+		break;
 	case 1:
 		render_manager->load_sprite_component(_background, "data/graphics/stage2.png");
 		break;
@@ -393,7 +398,7 @@ void Game::level_finished_to_menu()
     _right_down = false;
     _game_state = GameState::MENU_TO_NEW_LEVEL;
     SoundManager::get()->stop_sound("main_theme");
-    SoundManager::get()->play_sound("level_complete", true);
+    SoundManager::get()->play_sound("level_complete");
 }
 
 void Game::menu_to_new_level(float delta_time)
