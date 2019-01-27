@@ -1,4 +1,9 @@
 #include "game.hpp"
+#include "back_and_forth_strategy.hpp"
+#include "sat_collision_detection.hpp"
+#include "standing_strategy.hpp"
+#include "left_circling_strategy.hpp"
+#include "right_circling_strategy.hpp"
 
 Game::Game()
     : _game_state(GameState::MENU)
@@ -41,7 +46,7 @@ void Game::start()
 
     _left_scale = 3.5f;
     _right_scale = 3.0f;
-    _level_num = 1;
+    _level_num = 0;
 
     //_final_state.x = 
 
@@ -228,6 +233,9 @@ void Game::menu_to_game()
 
     switch (_level_num)
     {
+    case 0:
+        load_level_01();
+        break;
     case 1:
         load_level_01();
         break;
@@ -620,7 +628,7 @@ void Game::load_level_01()
 {
     _player->set_grid_position(2, 13);
     {
-        Enemy *enemy = new Enemy(12, 8, 128.0f);
+        Enemy *enemy = new Enemy(12, 8, 128.0f, 100.0f);
         EntityManager::get()->register_entity(enemy);
         enemy->attach_player_entity(_player);
         enemy->set_move_direction(Enemy::Direction::RIGHT);
@@ -636,13 +644,46 @@ void Game::load_level_01()
 
 void Game::load_level_02()
 {
-    _player->set_grid_position(2, 13);
+    _player->set_grid_position(21, 3);
     {
-        Enemy *enemy = new Enemy(12, 8, 128.0f);
+        Enemy *enemy = new Enemy(4, 3, 128.0f, 100.0f);
         EntityManager::get()->register_entity(enemy);
         enemy->attach_player_entity(_player);
         enemy->set_move_direction(Enemy::Direction::RIGHT);
         BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(18, 11, 128.0f, 100.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::LEFT);
+        BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(2, 8, 128.0f, 80.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::RIGHT);
+        LeftCirclingStrategy* str1 = new LeftCirclingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(9, 8, 128.0f, 70.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::LEFT);
+        RightCirclingStrategy* str1 = new RightCirclingStrategy();
         enemy->set_movement_strategy(str1);
         SatCollisionDetection* sat1 = new SatCollisionDetection();
         enemy->set_collision_strategy(sat1);
@@ -653,7 +694,139 @@ void Game::load_level_02()
 
 void Game::load_level_03()
 {
-    _player->set_grid_position(2, 13);
+    _player->set_grid_position(11, 13);
+    {
+        Enemy *enemy = new Enemy(10, 8, 0.0f, 100.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::DOWN);
+        StandingStrategy* str1 = new StandingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(11, 8, 0.0f, 100.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::DOWN);
+        StandingStrategy* str1 = new StandingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(12, 8, 0.0f, 100.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::DOWN);
+        StandingStrategy* str1 = new StandingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(7, 5, 128.0f, 80.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::LEFT);
+        BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(7, 9, 128.0f, 80.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::LEFT);
+        BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(1, 7, 128.0f, 80.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::RIGHT);
+        BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(1, 11, 128.0f, 80.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::RIGHT);
+        BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(22, 3, 128.0f, 40.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::DOWN);
+        RightCirclingStrategy* str1 = new RightCirclingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(20, 7, 128.0f, 40.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::RIGHT);
+        LeftCirclingStrategy* str1 = new LeftCirclingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(22, 9, 128.0f, 40.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::DOWN);
+        RightCirclingStrategy* str1 = new RightCirclingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(20, 13, 128.0f, 40.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::RIGHT);
+        LeftCirclingStrategy* str1 = new LeftCirclingStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
+    {
+        Enemy *enemy = new Enemy(14, 3, 128.0f, 80.0f);
+        EntityManager::get()->register_entity(enemy);
+        enemy->attach_player_entity(_player);
+        enemy->set_move_direction(Enemy::Direction::DOWN);
+        BackAndForthStrategy* str1 = new BackAndForthStrategy();
+        enemy->set_movement_strategy(str1);
+        SatCollisionDetection* sat1 = new SatCollisionDetection();
+        enemy->set_collision_strategy(sat1);
+        _enemies.push_back(enemy);
+    }
     LevelManager::get()->load_level("data/level_03.txt");
 }
 
@@ -667,7 +840,7 @@ void Game::load_level_05()
 {
     _player->set_grid_position(2, 13);
     {
-        Enemy *enemy = new Enemy(8, 12, 128.0f);
+        Enemy *enemy = new Enemy(8, 12, 128.0f, 100.0f);
         EntityManager::get()->register_entity(enemy);
         enemy->attach_player_entity(_player);
         enemy->set_move_direction(Enemy::Direction::UP);
@@ -679,7 +852,7 @@ void Game::load_level_05()
     }
 
     {
-        Enemy *enemy = new Enemy(13, 8, 128.0f);
+        Enemy *enemy = new Enemy(13, 8, 128.0f, 100.0f);
         EntityManager::get()->register_entity(enemy);
         enemy->attach_player_entity(_player);
         enemy->set_move_direction(Enemy::Direction::RIGHT);
@@ -691,7 +864,7 @@ void Game::load_level_05()
     }
 
     {
-        Enemy *enemy = new Enemy(13, 1, 128.0f);
+        Enemy *enemy = new Enemy(13, 1, 128.0f, 100.0f);
         EntityManager::get()->register_entity(enemy);
         enemy->attach_player_entity(_player);
         enemy->set_move_direction(Enemy::Direction::LEFT);
@@ -703,7 +876,7 @@ void Game::load_level_05()
     }
 
     {
-        Enemy *enemy = new Enemy(13, 6, 128.0f);
+        Enemy *enemy = new Enemy(13, 6, 128.0f, 100.0f);
         EntityManager::get()->register_entity(enemy);
         enemy->attach_player_entity(_player);
         enemy->set_move_direction(Enemy::Direction::UP);

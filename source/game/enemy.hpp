@@ -19,7 +19,7 @@ public:
     };
 
 public:
-    Enemy(int target_x, int target_y, float move_speed);
+    Enemy(int target_x, int target_y, float move_speed, float fov_size);
     ~Enemy();
 
     void set_grid_position(int target_x, int target_y);
@@ -47,6 +47,7 @@ private:
     int _target_x;
     int _target_y;
     float _move_speed;
+    float _fov_size;
     sf::Vector2f _fov_vector_u;
     sf::Vector2f _fov_vector_v;
     sf::ConvexShape _fov_shape;
