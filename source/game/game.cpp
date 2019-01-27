@@ -639,7 +639,7 @@ void Game::load_level_01()
         _enemies.push_back(enemy);
     }
 
-    LevelManager::get()->load_level("data/level_01.txt");
+    LevelManager::get()->load_level("data/level_02.txt");
 }
 
 void Game::load_level_02()

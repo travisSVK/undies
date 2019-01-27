@@ -28,10 +28,10 @@ int main(int argc, char* argv)
     Game* game = new Game();
     entity_manager->register_entity(game);
 
-    level_manager->load_level("data/level_test.txt");
+    //level_manager->load_level("data/level_test.txt");
 
-    Player* player = new Player(2, 13);
-    entity_manager->register_entity(player);
+    /*Player* player = new Player(2, 13);
+    entity_manager->register_entity(player);*/
 
  //   Item* item_test = new Item("data/graphics/Sister1.png", 3, 13);
  //  item_test->attach_player_entity(player);
